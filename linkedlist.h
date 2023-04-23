@@ -9,12 +9,20 @@ public:
     LinkedList();
     ~LinkedList();
 
-    // more functions to be added perhaps...
+    //added by me
+    bool insert_node(Node* node, int position);
+    
+    bool delete_node(int position);
+
+
+    bool pop();
 
 private:
     // the beginning of the list
     Node* head;
-  
+    //added by me
+    Node* tail;
+
     // how many nodes are there in the list?
     unsigned count;
 };

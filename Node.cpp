@@ -6,3 +6,8 @@ Node::Node(){
 Node::~Node(){
     // TODO
 };
+
+
+void Stock::update_stock(unsigned stock){
+    this->on_hand = stock;
+}
