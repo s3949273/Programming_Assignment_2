@@ -8,7 +8,9 @@ class LinkedList
 public:
     LinkedList();
     ~LinkedList();
-
+    bool Append(Node node);
+    bool Insert(Node node);
+    bool Remove(Node node);
     // more functions to be added perhaps...
 
 private:
