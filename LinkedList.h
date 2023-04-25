@@ -9,10 +9,14 @@ public:
     LinkedList();
     ~LinkedList();
 
-    bool Append(Node node);
+    bool Append(Node* node);
     bool Insert(Node node, unsigned index);
-    bool Remove(Node node, unsigned index);
-    // more functions to be added perhaps...
+    /*
+        params: Node* node: the node before the node you want to delete
+    */
+    bool Remove(Node* node);
+    bool pop();
+    void print();
 
 private:
     // the beginning of the list

@@ -11,46 +11,63 @@ LinkedList::~LinkedList() {
     delete head;
 }
 
-bool LinkedList::Append(Node node){
-    Node* currNode = head;
-
-
-
+bool LinkedList::Append(Node* node){
+    bool ret =false;
+    if (this->head != nullptr){
+        Node* head = this->head;
+        while(head->next != nullptr){
+            head = head->next;   
+        }
+        head->next = node;
+    ret = true;
+    }else{
+        this->head = node;
+    }
+    return ret;
 }
 // bool LinkedList::Insert(Node node, unsigned index){
 //     return false;
 // }
-bool LinkedList::Remove(Node node, unsigned index){
-    bool ret = false;
-    if(index > this->count){
-        cout<<"You tried to remove an index which was greater than the length of the linkedlist"<<endl;
+bool LinkedList::Remove(Node* node_before_delete){
+    bool ret = false; 
+    try{
+        Node* head = node_before_delete;
+        Node* temp = head->next;
+        // delete head->next;
+        head->next = head->next->next;
+        delete temp;
+        ret = true;
     }
-    else if (index < 0){
-        cout<<"You tried to remove an index less than 0"<<endl;
-    }else{
-        try{
-            unsigned counter = index-1;
-            //a variable head so that we don't make changes to the actual head of the linkedlist
-            Node* head = this->head;
-            //get to the corret place
-            while (counter>0 && head->next != nullptr ){
-                head = head->next;
-                counter -=1;
-            }
-            /*head is currently 1 before the node we want to remove
-            so we have something like this:
-                HEAD->node->head->node_to_remove->node->node->TAIL
-                and so we want to the link between head and node_to_remove by:
-                setting head's next value to be the node after the one we want to remove. 
-            */
-            head->next->~Node();
-            head->next = head->next->next;
-            ret = true;
-        }
-        catch(std::exception& e){
-            cout<<e.what()<<endl;
-        }
+    catch(std::exception& e){
+        cout<<e.what()<<endl;
     }
     return ret;
 }
 
+bool LinkedList::pop(){
+    bool ret = false;
+    try{
+        Node* head = this->head;
+        this->head = this->head->next;
+        delete head;
+
+    }catch(std::exception& e){
+        cout<<e.what()<<endl;
+    }
+    return ret;
+}
+
+void LinkedList::print(){
+    if (this->head == nullptr){
+        cout<<"no nodes to show"<<endl;
+    }else{
+        Node* head = this->head;
+        while (head->next != nullptr){
+            Stock* cur = head->data;
+            cout<<cur->id<<"|"<<cur->name<<"|"<<cur->description<<"|"<<cur->price.dollars<<"."<<cur->price.cents<<"|"<<cur->on_hand<<endl;
+            head = head->next;
+        }
+        Stock* cur = head->data;
+        cout<<cur->id<<"|"<<cur->name<<"|"<<cur->description<<"|"<<cur->price.dollars<<"."<<cur->price.cents<<"|"<<cur->on_hand<<endl;
+    }
+}
