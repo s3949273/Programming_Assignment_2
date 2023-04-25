@@ -31,8 +31,10 @@
 class Price
 {
 public:
+    Price(int cents,int amount);
     // The dollar value, and the cents value for some price
     unsigned dollars, cents;
+
 };
 
 /**
@@ -64,11 +66,16 @@ class Node
 {
 public:
     Node();
+    Node(Stock data);
     ~Node();
     // pointer to the data held for the node 
     Stock* data;
     // pointer to the next node in the list 
     Node* next;
+
+    //update the value at the 
+    bool Update(Stock value);
+
 };
 
 #endif // NODE_H
