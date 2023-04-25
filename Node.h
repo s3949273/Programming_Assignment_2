@@ -54,10 +54,7 @@ public:
     Price price;
     
     // how many of this item do we have on hand? 
-    unsigned on_hand;   
-
-    void update_stock(unsigned stock);
-
+    unsigned on_hand;    
 };
 
 /**
