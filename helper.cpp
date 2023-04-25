@@ -2,11 +2,6 @@
 #include "helper.h"
 #include <iostream>
 
-#define DIRECTION_NORTH "north"
-#define DIRECTION_EAST "east"
-#define DIRECTION_SOUTH "south"
-#define DIRECTION_WEST "west"
-
 using std::string;
 using std::vector;
 

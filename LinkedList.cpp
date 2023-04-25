@@ -11,12 +11,13 @@ LinkedList::~LinkedList() {
 }
 
 bool LinkedList::Append(Node node){
-
+    return false;
 }
 bool LinkedList::Insert(Node node){
 
+return false;
 }
 bool LinkedList::Remove(Node node){
-    
+    return false;
 }
 

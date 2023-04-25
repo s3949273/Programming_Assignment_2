@@ -66,12 +66,12 @@ int main(int argc, char **argv)
     /* read stock file */
     string stock_data = string(argv[1]);
     ifstream stocks(stock_data);
-    string line;
+    string line_stock;
     vector<string> output_stock;
     size_t counter = 0;
-    while (getline(stocks, line)){
-        Helper::splitString(line, output_stock, "|");
-        cout << line << endl;
+    while (getline(stocks, line_stock)){
+        Helper::splitString(line_stock, output_stock, "|");
+        cout << line_stock << endl;
         output_stock.at(counter);
         counter++;
     }
@@ -80,12 +80,12 @@ int main(int argc, char **argv)
     /* read coin file*/
     string coins_data = string(argv[2]);
     ifstream coins(coins_data);
-    string line;
+    string line_coins;
     vector<string> output_coins;
     
-    while (getline(coins, line)){
-        Helper::splitString(line, output_coins, ",");
-        cout << line << endl;
+    while (getline(coins, line_coins)){
+        Helper::splitString(line_coins, output_coins, ",");
+        cout << line_coins << endl;
     }
 
     stocks.close();

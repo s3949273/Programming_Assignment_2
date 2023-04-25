@@ -1,9 +1,12 @@
 #include "Node.h"
 
-Price::Price(int total)
+using std::vector;
+
+Price::Price(int total, int something_else)
 {   
-    temp = std::split(total,".");
-    unsigned dollars, cents = temp;   
+    // std::split(total,".");
+    // vector<string> split;
+    // unsigned dollars, cents = temp;   
 };
 
 /**
@@ -44,6 +47,5 @@ Node::~Node(){
 };
 
 bool Node::Update(Stock value){
-
-
+    return false;
 }
