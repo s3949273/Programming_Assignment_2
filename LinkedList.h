@@ -8,15 +8,16 @@ class LinkedList
 public:
     LinkedList();
     ~LinkedList();
+
     bool Append(Node node);
-    bool Insert(Node node);
-    bool Remove(Node node);
+    bool Insert(Node node, unsigned index);
+    bool Remove(Node node, unsigned index);
     // more functions to be added perhaps...
 
 private:
     // the beginning of the list
     Node* head;
-  
+    Node* tail;
     // how many nodes are there in the list?
     unsigned count;
 };
