@@ -38,17 +38,28 @@ using std::endl;
 
 
 // Node::Node():data(new Stock()), next(nullptr){
+Price::Price(unsigned dollars, unsigned cents){
+    this->dollars = dollars;
+    this->cents = cents;
+}
+
+Stock::Stock(string id, string name, string description, Price price, unsigned on_hand):id(id), name(name), description(description),price(price), on_hand(on_hand){
+    // this->id = id;
+    // this->name = name;
+    // this->description = description;
+    // this->price = price;
+    // this->on_hand = on_hand;
+};
 
 // };
 
-Node::Node(Stock* stock = new Stock()){
-    this->data = stock;
-    this->next = nullptr;
+Node::Node(Stock* stock):data(stock), next(nullptr){
+    // this->data = stock;
+    // this->next = nullptr;
 };
 
 Node::~Node(){
-    delete this->data;
-    delete this->next;
+    cout<<"destructor was called"<<endl;
 };
 
 bool Node::Update(Stock value){

@@ -3,7 +3,7 @@
 #include <string> 
 #include "Coin.h"
 
-
+using std::string;
 //The length of the id string not counting the nul terminator
 #define IDLEN 5
 
@@ -34,7 +34,7 @@ public:
     // Price(int cents,int amount);
     // The dollar value, and the cents value for some price
     unsigned dollars, cents;
-
+    Price(unsigned cents, unsigned dollars);
 };
 
 /**
@@ -57,6 +57,7 @@ public:
     
     // how many of this item do we have on hand? 
     unsigned on_hand;    
+    Stock(string id, string name, string description, Price price, unsigned on_hand);
 };
 
 /**
