@@ -64,55 +64,59 @@ int main(int argc, char **argv)
     if (argc != 3) {throw std::invalid_argument("invalid number of arguments");}
 
     /* read stock file */
-    try{
-        string stock_data = string(argv[1]);
-        ifstream stocks(stock_data);
-        string line_stock;
-        vector<string> output_stock;
-        size_t counter = 0;
-        while (getline(stocks, line_stock)){
-            Helper::splitString(line_stock, output_stock, "|");
-            // cout << line_stock << endl;
-            output_stock.at(counter);
-            counter++;
-        }
-        stocks.close();
-    }catch(std::exception& e){
-        cout<<e.what()<<endl;
-    }
+    // try{
+    //     string stock_data = string(argv[1]);
+    //     ifstream stocks(stock_data);
+    //     string line_stock;
+    //     vector<string> output_stock;
+    //     size_t counter = 0;
+    //     while (getline(stocks, line_stock)){
+    //         Helper::splitString(line_stock, output_stock, "|");
+    //         // cout << line_stock << endl;
+    //         output_stock.at(counter);
+    //         counter++;
+    //     }
+    //     stocks.close();
+    // }catch(std::exception& e){
+    //     cout<<e.what()<<endl;
+    // }
     
-    /* read coin file*/
-    try{
-        string coins_data = string(argv[2]);
-        ifstream coins(coins_data);
-        string line_coins;
-        unsigned line_counter = 0;
-        vector<string> output_coins;
-        while (getline(coins, line_coins)){
-            vector<string> temp;
-            Helper::splitString(line_coins, temp, ",");
-            line_counter +=1;
-            if (line_counter > 7){
-                string exception_string = "the lines in the coins file were more than expected, expected 8, got: "+std::to_string(line_counter+1);
-                throw std::invalid_argument(exception_string);
-            }
-            // cout<<output_coins.at(output_coins.size()-2)<<endl;
-            if(temp.size() > 2){
-                string exception_string = "the number of items in the line was not 2\n the line was: "+line_coins;
-                throw std::invalid_argument(exception_string);
-            }else{
+    // /* read coin file*/
+    // try{
+    //     string coins_data = string(argv[2]);
+    //     ifstream coins(coins_data);
+    //     string line_coins;
+    //     unsigned line_counter = 0;
+    //     vector<string> output_coins;
+    //     while (getline(coins, line_coins)){
+    //         vector<string> temp;
+    //         Helper::splitString(line_coins, temp, ",");
+    //         line_counter +=1;
+    //         if (line_counter > 7){
+    //             string exception_string = "the lines in the coins file were more than expected, expected 8, got: "+std::to_string(line_counter+1);
+    //             throw std::invalid_argument(exception_string);
+    //         }
+    //         // cout<<output_coins.at(output_coins.size()-2)<<endl;
+    //         if(temp.size() > 2){
+    //             string exception_string = "the number of items in the line was not 2\n the line was: "+line_coins;
+    //             throw std::invalid_argument(exception_string);
+    //         }else{
                 
-            }
+    //         }
             
-        }
-        coins.close();
+    //     }
+    //     coins.close();
         
         
-    }catch(std::exception& e){
-        cout<<e.what()<<endl;
-    }
+    // }catch(std::exception& e){
+    //     cout<<e.what()<<endl;
+    // }
     
-    cout<<"finished reading files"<<endl;
+    // cout<<"finished reading files"<<endl;
     
+    Coin c(700,1);
+    cout<<c.denom<<c.count<<endl;
+
+
     return EXIT_SUCCESS;
 }
