@@ -42,8 +42,16 @@ Price::Price(unsigned dollars, unsigned cents){
     this->dollars = dollars;
     this->cents = cents;
 }
+void Price::display(){
+    cout<<"$"<<this->dollars<<".";
+    if (this->cents < 10){
+        cout<<"0";
+    }
+    cout<<cents<<endl;
+}
 
 Stock::Stock(string id, string name, string description, Price price, unsigned on_hand):id(id), name(name), description(description),price(price), on_hand(on_hand){
+    
     // this->id = id;
     // this->name = name;
     // this->description = description;

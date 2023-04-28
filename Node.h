@@ -35,6 +35,7 @@ public:
     // The dollar value, and the cents value for some price
     unsigned dollars, cents;
     Price(unsigned cents, unsigned dollars);
+    void display();
 };
 
 /**
@@ -57,6 +58,15 @@ public:
     
     // how many of this item do we have on hand? 
     unsigned on_hand;    
+    /*
+    Constructor of the stock class,
+    takes in parameters: 
+    string id, 
+    string name, 
+    string description, 
+    Price price, 
+    unsigned on_hand
+    */
     Stock(string id, string name, string description, Price price, unsigned on_hand);
 };
 
