@@ -16,7 +16,7 @@ public:
     */
     bool Remove(Node* node);
     bool pop();
-    void print();
+    void display();
 
 private:
     // the beginning of the list
