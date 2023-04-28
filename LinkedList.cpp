@@ -57,17 +57,40 @@ bool LinkedList::pop(){
     return ret;
 }
 
-void LinkedList::print(){
+void LinkedList::display(){
+    cout<<"Items Menu"<<endl;
+    cout<<"----------"<<endl;
+    cout.width(46);
+    cout<<std::left<<"ID | Name";
+    cout<<"| Available | Price"<<endl;
+    for (unsigned x=0; x < 65; x++){
+        cout<<"-";
+    }
+    cout<<endl;
     if (this->head == nullptr){
-        cout<<"no nodes to show"<<endl;
+        cout<<"no items to show"<<endl;
     }else{
         Node* head = this->head;
         while (head->next != nullptr){
             Stock* cur = head->data;
-            cout<<cur->id<<"|"<<cur->name<<"|"<<cur->description<<"|"<<cur->price.dollars<<"."<<cur->price.cents<<"|"<<cur->on_hand<<endl;
+            cout<<cur->id<<"|";
+            cout.width(40);
+            cout<<std::left<<cur->name<<"|";
+            cout.width(11);
+            cout<<std::left<<cur->on_hand;
+            cout<<"| ";
+            cur->price.display();
             head = head->next;
         }
+        //print the tail
         Stock* cur = head->data;
-        cout<<cur->id<<"|"<<cur->name<<"|"<<cur->description<<"|"<<cur->price.dollars<<"."<<cur->price.cents<<"|"<<cur->on_hand<<endl;
+        cout<<cur->id<<"|";
+        cout.width(40);
+        cout<<std::left<<cur->name<<"|";
+        cout.width(11);
+        cout<<std::left<<cur->on_hand;
+        cout<<"| ";
+        cur->price.display();
+        cout<<endl;
     }
 }
