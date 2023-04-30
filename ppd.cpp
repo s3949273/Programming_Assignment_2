@@ -120,9 +120,6 @@ int main(int argc, char **argv)
         return 0;
     }
     
-    
-
-
     /* read coin file*/
     // try{
     //     string coins_data = string(argv[2]);
