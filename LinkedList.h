@@ -17,7 +17,8 @@ public:
     bool Remove(Node* node);
     bool pop();
     void display();
-
+    void open_stock_file(string filepath);
+    Stock* searchID(string ID);
 private:
     // the beginning of the list
     Node* head;

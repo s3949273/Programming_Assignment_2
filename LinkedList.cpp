@@ -1,7 +1,15 @@
 #include "LinkedList.h"
 #include <iostream>
+#include <vector>
+#include <iostream>
+#include <dirent.h>
+#include "helper.h"
+#include <fstream> 
 using std::cout;
 using std::endl;
+using std::ifstream;
+using std::string;
+
 LinkedList::LinkedList() {
    head = nullptr;
    count = 0;
@@ -9,7 +17,78 @@ LinkedList::LinkedList() {
 
 LinkedList::~LinkedList() {
     delete head;
-}
+};
+
+// void Linkedlist::open_stock_file(string filepath){
+//     try{
+//         ifstream stocks(filepath);
+//         string line_stock;
+//         vector<string> output_stock;
+//         while (getline(stocks, line_stock)){
+//             Helper::splitString(line_stock, output_stock, "|");
+//             if(output_stock.size() >5){
+//                 throw std::invalid_argument("too many attributes given to build a stock object");
+//             }else{
+//                 vector<string> given_price;
+//                 Helper::splitString(output_stock[3],given_price, ".");
+//                 if(given_price.size()>2){
+//                     throw std::invalid_argument("Price had too many values when split");
+//                 }else{
+//                     try{
+//                         Price* p = new Price(stoi(given_price[0]), stoi(given_price[1]));
+//                         Stock* stock = new Stock(output_stock[0],output_stock[1],output_stock[2],*p,std::make_unsigned_t<int>(stoi(output_stock[4])));
+//                         Node* new_node = new Node(stock);
+//                         this->Append(new_node);
+//                     }catch(std::exception& e){
+//                         cout<<e.what()<<endl;
+//                     }
+//                 }
+//             }
+//             output_stock.clear();
+//         }
+//         stocks.close();
+//     }catch(std::exception& e){
+//         cout<<e.what()<<endl;
+//     }
+// };
+
+
+Stock* LinkedList::searchID(std::string ID){
+    Stock* ret = nullptr;
+    Node* head = this->head;
+    //found used to prematurely break out of the while loop when the ID is found
+    bool found = false;
+    if (head != nullptr){
+        while (head->next != nullptr && found == false){
+            if (ID == head->data->id){
+                found = true;
+                ret->id = head->data->id;
+                ret->description = head->data->description;
+                ret->price = head->data->price;
+                ret->on_hand = head->data->on_hand;
+                ret->name = head->data->name;
+            }
+            head = head->next;
+        }
+        //in the case that the head is the tail
+        if(ID == head->data->id){
+                found = true;   
+                ret->id = head->data->id;
+                ret->description = head->data->description;
+                ret->price = head->data->price;
+                ret->on_hand = head->data->on_hand;
+                ret->name = head->data->name;
+        }
+    };
+    if (this->head == nullptr && !found){
+        //there was literally no stock in the linkedlist
+        throw std::out_of_range("No stock in the linkedlist");
+    }if (!found){
+        //there was stock in the linkedlist but the id wasn't found
+        throw std::out_of_range("couldn't find the ID in the stock");
+    }
+    return ret;
+};
 
 bool LinkedList::Append(Node* node){
     bool ret =false;
@@ -19,9 +98,11 @@ bool LinkedList::Append(Node* node){
             head = head->next;   
         }
         head->next = node;
+        this->count ++;
     ret = true;
     }else{
         this->head = node;
+        this->count ++;
     }
     return ret;
 }

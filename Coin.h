@@ -7,8 +7,8 @@
 // enumeration representing the various types of currency available in the system. 
 enum Denomination
 {
-    FIVE_CENTS=0, TEN_CENTS=1, TWENTY_CENTS=2, FIFTY_CENTS=3, ONE_DOLLAR=4, 
-    TWO_DOLLARS=5, FIVE_DOLLARS=6, TEN_DOLLARS=7
+    FIVE_CENTS, TEN_CENTS, TWENTY_CENTS, FIFTY_CENTS, ONE_DOLLAR, 
+    TWO_DOLLARS, FIVE_DOLLARS, TEN_DOLLARS
 };
 
 

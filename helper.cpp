@@ -1,6 +1,7 @@
 //code taken from assignment 1 template
 #include "helper.h"
 #include <iostream>
+#include <algorithm>
 
 using std::string;
 using std::vector;
@@ -66,9 +67,6 @@ string Helper::readInput()
     string input;
     std::getline(std::cin, input);
     std::cout<<std::endl;
-    if (std::cin.eof()){
-        std::cout<<"ctrl+d was detected, quitting"<<std::endl;
-    }
     return input;
 }
 int Helper::str_to_int(string s){
