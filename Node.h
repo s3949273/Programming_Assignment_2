@@ -36,6 +36,7 @@ public:
     unsigned dollars, cents;
     Price(unsigned cents, unsigned dollars);
     void display();
+    ~Price();
 };
 
 /**
@@ -68,6 +69,7 @@ public:
     unsigned on_hand
     */
     Stock(string id, string name, string description, Price price, unsigned on_hand);
+    ~Stock();
 };
 
 /**
