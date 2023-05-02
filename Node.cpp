@@ -6,9 +6,12 @@ using std::cout;
 using std::endl;
 
 Price::Price(unsigned dollars, unsigned cents){
+    cout<<"Price object created"<<endl;
     this->dollars = dollars;
     this->cents = cents;
 }
+
+
 void Price::display(){
     cout<<"$"<<this->dollars<<".";
     if (this->cents < 10){
@@ -18,7 +21,7 @@ void Price::display(){
 }
 
 Stock::Stock(string id, string name, string description, Price price, unsigned int on_hand):id(id), name(name), description(description),price(price), on_hand(on_hand){
-    
+    cout<<"stock object created"<<endl; 
 };
 Stock::~Stock(){
     cout<<"deconstructor called for stock"<<endl;
@@ -30,11 +33,16 @@ Price::~Price(){
 // };
 
 Node::Node(Stock* stock):data(stock), next(nullptr){
+    cout<<"Node object created"<<endl;
 };
 
 Node::~Node(){
     cout<<"destructor was called for node;"<<endl;
-    // delete this->data;  
+    
+    delete this->data;  
+    if(this->next != nullptr){
+        delete this->next;
+    }
     // cout<<this->data->id<<endl;
 };
 

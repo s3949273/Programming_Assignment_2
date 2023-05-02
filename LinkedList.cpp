@@ -8,6 +8,7 @@
 using std::cout;
 using std::endl;
 using std::ifstream;
+using std::vector;
 using std::string;
 
 LinkedList::LinkedList() {
@@ -16,48 +17,41 @@ LinkedList::LinkedList() {
 }
 
 LinkedList::~LinkedList() {
-    Node* head = this->head;
-    while (head->next != nullptr){
-        Node* cur = head;
-        head = head->next;
-        delete cur;
-    }
-    delete head;
+    delete this->head;
     
 };
 
-// void Linkedlist::open_stock_file(string filepath){
-//     try{
-//         ifstream stocks(filepath);
-//         string line_stock;
-//         vector<string> output_stock;
-//         while (getline(stocks, line_stock)){
-//             Helper::splitString(line_stock, output_stock, "|");
-//             if(output_stock.size() >5){
-//                 throw std::invalid_argument("too many attributes given to build a stock object");
-//             }else{
-//                 vector<string> given_price;
-//                 Helper::splitString(output_stock[3],given_price, ".");
-//                 if(given_price.size()>2){
-//                     throw std::invalid_argument("Price had too many values when split");
-//                 }else{
-//                     try{
-//                         Price* p = new Price(stoi(given_price[0]), stoi(given_price[1]));
-//                         Stock* stock = new Stock(output_stock[0],output_stock[1],output_stock[2],*p,std::make_unsigned_t<int>(stoi(output_stock[4])));
-//                         Node* new_node = new Node(stock);
-//                         this->Append(new_node);
-//                     }catch(std::exception& e){
-//                         cout<<e.what()<<endl;
-//                     }
-//                 }
-//             }
-//             output_stock.clear();
-//         }
-//         stocks.close();
-//     }catch(std::exception& e){
-//         cout<<e.what()<<endl;
-//     }
-// };
+void LinkedList::open_stock_file(string filepath){
+    try{
+        ifstream stocks(filepath);
+        string line_stock;
+        vector<string> output_stock;
+        while (getline(stocks, line_stock)){
+            Helper::splitString(line_stock, output_stock, "|");
+            if(output_stock.size() >5){
+                throw std::invalid_argument("too many attributes given to build a stock object");
+            }else{
+                vector<string> given_price;
+                Helper::splitString(output_stock[3],given_price, ".");
+                if(given_price.size()>2){
+                    throw std::invalid_argument("Price had too many values when split");
+                }else{
+                    try{
+                        Stock* stock = new Stock(output_stock[0],output_stock[1],output_stock[2],Price(stoi(given_price[0]), stoi(given_price[1])),std::make_unsigned_t<int>(stoi(output_stock[4])));
+                        Node* new_node = new Node(stock);
+                        this->Append(new_node);
+                    }catch(std::exception& e){
+                        cout<<e.what()<<endl;
+                    }
+                }   
+            }
+            output_stock.clear();
+        }
+        stocks.close();
+    }catch(std::exception& e){
+        cout<<e.what()<<endl;
+    }
+};
 
 
 Stock* LinkedList::searchID(std::string ID){
