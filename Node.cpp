@@ -22,10 +22,8 @@ void Price::display(){
 Stock::Stock(string id, string name, string description, Price price, unsigned int on_hand):id(id), name(name), description(description),price(price), on_hand(on_hand){
 };
 Stock::~Stock(){
-    cout<<"deconstructor called for stock"<<endl;
 }
 Price::~Price(){
-    cout<<"deconstructor called for price"<<endl;
 }
 
 // };
@@ -34,8 +32,6 @@ Node::Node(Stock* stock):data(stock), next(nullptr){
 };
 
 Node::~Node(){
-    cout<<"destructor was called for node;"<<endl;
-    
     delete this->data;  
     // if(this->next != nullptr){
     //     delete this->next;
