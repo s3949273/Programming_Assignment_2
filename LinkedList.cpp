@@ -225,7 +225,7 @@ void LinkedList::display(){
     cout<<"Items Menu"<<endl;
     cout<<"----------"<<endl;
     cout.width(46);
-    cout<<std::left<<"ID | Name";
+    cout<<std::left<<"ID   | Name";
     cout<<"| Available | Price"<<endl;
     for (unsigned x=0; x < 65; x++){
         cout<<"-";
