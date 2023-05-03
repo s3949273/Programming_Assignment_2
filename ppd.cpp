@@ -4,6 +4,7 @@
 #include "helper.h"
 #include <fstream> 
 #include <string>
+#include <list>
 
 #define TAB "   "
 #define OPTION_1 "1"
@@ -24,6 +25,8 @@ using std::endl;
 using std::string;
 using std::ifstream;
 using std::vector;
+using std::list;
+
 /**
  * manages the running of the program, initialises data structures, loads
  * data, display the main menu, and handles the processing of options. 
@@ -109,11 +112,13 @@ int main(int argc, char **argv)
         catch(std::exception& e){
             cout << e.what() << "\n" << endl;
         }
-
         //Clear memory here
-        delete all_stock;
+        // delete all_stock;
     }
+
+    list<Coin> cash_register;
     /* read coin file*/
+
     try{
         string coins_data = string(argv[2]);
         ifstream coins(coins_data);
@@ -121,9 +126,12 @@ int main(int argc, char **argv)
         vector<string> output_coins;
         while (getline(coins, line_coins)){
             Helper::splitString(line_coins, output_coins, DELIM);
-            
+            cash_register.push_back(Coin(static_cast<Denomination>(stoi(output_coins[0])), stoi(output_coins[1])));
         }
         coins.close();
+        for (list<Coin>::iterator it=cash_register.begin(); it != cash_register.end(); it++){
+            it->print();
+        }
         
         
     }catch(std::exception& e){
