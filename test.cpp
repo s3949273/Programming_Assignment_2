@@ -20,13 +20,14 @@ int main(int argc, char* argv[]){
     // ll->add_item();
     // ll->display();
     // ll->add_item();
-    Node* n = new Node(new Stock(string("ID1"), string("node"), string("1 node in linkedlist"), Price(1,1), 10));
-    Node* n1 = new Node(new Stock(string("ID2"), string("node 1"), string("2 node in linkedlist"), Price(1,3), 10));
-    Node* n2 = new Node(new Stock(string("ID3"), string("node 2"), string("3 node in linkedlist"), Price(1,4), 10));
-    ll->append(n);
-    ll->append(n1);
-    ll->append(n2);
-    ll->display();
+    // Node* n = new Node(new Stock(string("I0001"), string("node"), string("1 node in linkedlist"), Price(1,1), 10));
+    // Node* n1 = new Node(new Stock(string("I0002"), string("node 1"), string("2 node in linkedlist"), Price(1,3), 10));
+    // Node* n2 = new Node(new Stock(string("I0003"), string("node 2"), string("3 node in linkedlist"), Price(1,4), 10));
+    // ll->append(n);
+    // ll->append(n1);
+    // ll->append(n2);
+    // ll->display();
     delete ll;
-    ll->display();
+    cout<<"allg"<<endl;
+    return 0;
 }
