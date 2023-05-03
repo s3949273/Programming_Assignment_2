@@ -24,6 +24,8 @@ LinkedList::~LinkedList() {
         delete cur;
         cur = nullptr;
     }
+    delete head;
+    head = nullptr;
 };
 
 void LinkedList::open_stock_file(string filepath){
@@ -146,7 +148,7 @@ Node* LinkedList::get_node(size_t index){
     return ret;
 }
 
-
+//REQ 8
 bool LinkedList::remove_item(){
     bool ret = false;
     cout<<"Please enter the ID of the item you'd like to remove: ";
