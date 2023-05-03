@@ -15,8 +15,12 @@ public:
         params: Node* node: the node before the node you want to delete
     */
     bool remove(Node* node);
-    bool purchase_item(string ID);
+    
+    //handles the payment in purchase item
+    bool pay(unsigned cents, unsigned amount);
+    bool purchase_item();
     bool pop();
+
     void display();
     void open_stock_file(string filepath);
     bool add_item();

@@ -14,8 +14,9 @@ int main(int argc, char* argv[]){
     // cout<<Helper::strip_ID(string("0"))<<endl;
     
     LinkedList* ll = new LinkedList();
+    ll->pay(50,1);
     // ll->open_stock_file(string(argv[1]));
-    
+    // 
     // ll->display();
     // ll->add_item();
     // ll->display();
@@ -28,6 +29,5 @@ int main(int argc, char* argv[]){
     // ll->append(n2);
     // ll->display();
     delete ll;
-    cout<<"allg"<<endl;
     return 0;
 }

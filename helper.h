@@ -50,6 +50,7 @@ public:
     static int str_to_int(std::string s);
     static std::string generate_ID(int id_num);
     static std::string strip_ID(std::string id);
+    // static std::string cents_to_dollars(unsigned cents);
     /*
         since the isNumber does not work as expected... i have created a sort of temporary fix
         it really just checks whether the input was a whole number or not

@@ -6,6 +6,7 @@
 #include "helper.h"
 #include <fstream> 
 using std::cout;
+using std::cin;
 using std::endl;
 using std::ifstream;
 using std::vector;
@@ -47,8 +48,7 @@ void LinkedList::open_stock_file(string filepath){
                     throw std::invalid_argument("Price had too many values when split");
                 }else{
                     try{
-                        cout<<output_stock[0]<<endl;
-                        Stock* stock = new Stock(output_stock[0],output_stock[1],output_stock[2],Price(stoi(given_price[0]), stoi(given_price[1])),std::make_unsigned_t<int>(stoi(output_stock[4])));
+                        Stock* stock = new Stock(output_stock[0],output_stock[1],output_stock[2],Price(stoi(given_price[0]), stoi(given_price[1])),(stoi(output_stock[4])));
                         Node* new_node = new Node(stock);
                         this->append(new_node);
                         this->count ++;
@@ -59,7 +59,9 @@ void LinkedList::open_stock_file(string filepath){
             }
             output_stock.clear();
         }
+        
         stocks.close();
+        cout<<"Successfully read stock file and created Linkedlist Nodes"<<endl;
     }catch(std::exception& e){
         cout<<e.what()<<endl;
     }
@@ -133,10 +135,38 @@ bool LinkedList::add_item(){
 };
 
 //REQ 5
-bool LinkedList::purchase_item(string ID){
-    return false;
+bool LinkedList::pay(unsigned cents, unsigned amount){
+    //valid denoms to check whether the payment being received is a valid denomination
+    
+    cout<<"Please hand over the money - type in the value of each note/coin in cents"<<endl;
+    cout<<"Please press Enter or ctrl-d on a new line to cancel the payment"<<endl;
+    cout<<"You need to give us: "<<cents/100.0<<endl;
+    bool ret =false;
+    vector<int> valid_demons{5,10,20,50,100,200,500,1000};
+    string input = Helper::readInput();
+    while (!cin.eof() && input.size() !=0 && cents>0){
+        
+        cout<<"You still need to give us: "<<cents/100.0<<endl;
+    }
+    cout<<ret<<endl;
+        
+    
+    return ret; 
 }
 
+bool LinkedList::purchase_item(){
+    bool ret = false;
+    cout<<"please enter the ID of the item you'd like to buy:";
+    //read the input and strip it to contain just the number
+    string id = Helper::strip_ID(Helper::readInput());
+    if (Helper::isNumber(id)){
+        
+        ret = true;
+    }else{
+        cout<<"you tried to enter either a letter or a decimal "<<endl;
+    }
+    return ret;
+}
 Node* LinkedList::get_node(size_t index){
     Node* ret = nullptr;
     if (index < this->count){
