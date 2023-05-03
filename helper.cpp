@@ -72,7 +72,6 @@ string Helper::readInput()
 int Helper::str_to_int(string s){
     return std::stoi(s);
 }
-
 bool Helper::is_int(string s){
     bool ret = true;   
     ret= Helper::isNumber(s);
@@ -88,3 +87,29 @@ bool Helper::is_int(string s){
     }
     return ret;
 }
+
+string Helper::strip_ID(string id){
+    id = Helper::strip(id);
+    //get rid of the I
+    id = id.substr(1,id.size());
+    //get rid of the 0;
+    //referenced from: https://stackoverflow.com/questions/25726531/how-to-remove-leading-zeros-from-string-using-c 
+    id.erase(0,id.find_first_not_of("0"));
+    return id;
+}
+
+string Helper::generate_ID(int x){
+    string id = "I";
+    if (x< 10){
+        id +="000"+std::to_string(x);
+    }
+    else if (x < 100 ){
+        id +="00"+std::to_string(x);
+    }else if (x < 1000){
+        id+= "0"+std::to_string(x);
+    }else{
+        id+=std::to_string(x);
+    }
+    return id;
+}
+//

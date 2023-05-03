@@ -15,6 +15,8 @@
 #define OPTION_7 "7" 
 #define OPTION_8 "8" 
 #define OPTION_9 "9" 
+#define DEFAULT_STOCK_LEVEL 20
+#define DEFAULT_COINS 5
 
 using std::cout;
 using std::cin;

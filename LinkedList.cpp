@@ -17,8 +17,13 @@ LinkedList::LinkedList() {
 }
 
 LinkedList::~LinkedList() {
-    delete this->head;
-    
+    Node* head = this->head;
+    while(head->next != nullptr){
+        Node* cur = head;
+        head = head->next;
+        delete cur;
+        cur = nullptr;
+    }
 };
 
 void LinkedList::open_stock_file(string filepath){
@@ -37,13 +42,15 @@ void LinkedList::open_stock_file(string filepath){
                     throw std::invalid_argument("Price had too many values when split");
                 }else{
                     try{
+                        cout<<output_stock[0]<<endl;
                         Stock* stock = new Stock(output_stock[0],output_stock[1],output_stock[2],Price(stoi(given_price[0]), stoi(given_price[1])),std::make_unsigned_t<int>(stoi(output_stock[4])));
                         Node* new_node = new Node(stock);
-                        this->Append(new_node);
+                        this->append(new_node);
+                        this->count ++;
                     }catch(std::exception& e){
                         cout<<e.what()<<endl;
                     }
-                }   
+                }
             }
             output_stock.clear();
         }
@@ -52,7 +59,6 @@ void LinkedList::open_stock_file(string filepath){
         cout<<e.what()<<endl;
     }
 };
-
 
 Stock* LinkedList::searchID(std::string ID){
     Stock* ret = nullptr;
@@ -90,8 +96,83 @@ Stock* LinkedList::searchID(std::string ID){
     }
     return ret;
 };
+//REQ 7
+bool LinkedList::add_item(){
+    bool ret = false;  
+    string id = Helper::generate_ID(count); 
+    //name input
+    cout<<"Enter item name: ";
+    string name_input = Helper::readInput();
+    cout<<name_input<<endl; 
+    //item description input
+    cout<<"Enter item description: ";
+    string desc_input = Helper::readInput();
+    cout<<desc_input<<endl; 
+    //item price input
+    cout<<"Enter the price for the item: ";
+    string price_input = Helper::readInput();
+    vector<string> price_split;
+    Helper::splitString(price_input, price_split, ".");
+    if (price_split.size() < 2|| price_split.size() > 2){
+        cout<<"Sorry, price was not correctly formatted";
+    }else{
+        Stock* new_stock = new Stock(id, name_input, desc_input, Price(stoi(price_split[0]), stoi(price_split[1])), 50);
+        Node* new_node = new Node(new_stock);
+        this->append(new_node);
+        this->count ++;
+    }
 
-bool LinkedList::Append(Node* node){
+
+
+    return ret;
+};
+
+//REQ 5
+bool LinkedList::purchase_item(string ID){
+    return false;
+}
+
+Node* LinkedList::get_node(size_t index){
+    Node* ret = nullptr;
+    if (index < this->count){
+        //only do something if the index the person wants to 
+        //get to is less than the size of the linkedlist
+        Node* ret = this->head;
+        while (ret->next!= nullptr && index > 0){
+            ret = ret->next;
+            index --;
+        }
+    }
+    return ret;
+}
+
+
+bool LinkedList::remove_item(){
+    bool ret = false;
+    cout<<"Please enter the ID of the item you'd like to remove: ";
+    string id = Helper::readInput();
+    if (id.find("I") != string::npos){
+        //there was an I in the Id like there's supposed to be so we strip it to get just the number
+        id = Helper::strip_ID(id);
+        if(Helper::is_int(id)){
+            //the remaining id is an integer
+            /*
+                we want to get to the node before the one we want to remove,
+                so that we can destroy the link from the before node to the 
+                node afer
+            */
+            Node* node_to_remove = this->get_node(stoi(id)-1);
+            //delete the one we want to delete
+            delete node_to_remove->next;
+            //create the new link to the one after;
+            node_to_remove->next = node_to_remove->next->next;
+        }else{
+            cout<<"ID was either a letter or a float (it had a decimal point in it)"<<endl;
+        }
+    }
+    return ret;
+}
+bool LinkedList::append(Node* node){
     bool ret =false;
     if (this->head != nullptr){
         Node* head = this->head;
@@ -107,10 +188,8 @@ bool LinkedList::Append(Node* node){
     }
     return ret;
 }
-// bool LinkedList::Insert(Node node, unsigned index){
-//     return false;
-// }
-bool LinkedList::Remove(Node* node_before_delete){
+
+bool LinkedList::remove(Node* node_before_delete){
     bool ret = false; 
     try{
         Node* head = node_before_delete;
@@ -118,6 +197,7 @@ bool LinkedList::Remove(Node* node_before_delete){
         // delete head->next;
         head->next = head->next->next;
         delete temp;
+        this->count--;
         ret = true;
     }
     catch(std::exception& e){
