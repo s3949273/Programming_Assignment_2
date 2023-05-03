@@ -18,14 +18,17 @@ LinkedList::LinkedList() {
 
 LinkedList::~LinkedList() {
     Node* head = this->head;
-    while(head->next != nullptr){
-        Node* cur = head;
-        head = head->next;
-        delete cur;
-        cur = nullptr;
+    if (this->head != nullptr){
+        while(head->next != nullptr){
+            Node* cur = head;
+            head = head->next;
+            delete cur;
+            cur = nullptr;
+        }
+        delete head;
+        head = nullptr;
     }
-    delete head;
-    head = nullptr;
+    
 };
 
 void LinkedList::open_stock_file(string filepath){
