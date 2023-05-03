@@ -7,8 +7,8 @@
 // enumeration representing the various types of currency available in the system. 
 enum Denomination
 {
-    FIVE_CENTS, TEN_CENTS, TWENTY_CENTS, FIFTY_CENTS, ONE_DOLLAR, 
-    TWO_DOLLARS, FIVE_DOLLARS, TEN_DOLLARS
+    FIVE_CENTS = 5, TEN_CENTS = 10, TWENTY_CENTS = 20, FIFTY_CENTS = 50, ONE_DOLLAR = 100, 
+    TWO_DOLLARS = 200, FIVE_DOLLARS = 500, TEN_DOLLARS = 1000
 };
 
 
@@ -23,8 +23,10 @@ public:
     // the count of how many of these are in the cash register
     unsigned count;
 
-    Coin(unsigned cents, unsigned amount);
+    Coin();
+    Coin(Denomination denom, unsigned count);
 
+    void print();
 };
 
 #endif // COIN_H
