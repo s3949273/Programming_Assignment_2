@@ -15,6 +15,13 @@ int main(int argc, char* argv[]){
     
     LinkedList* ll = new LinkedList();
     ll->pay(50,1);
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    string input = Helper::readInput();
+    cout<<"Input is: "<<input<<endl;
+    // cout<<"hello"<<endl;
+
     // ll->open_stock_file(string(argv[1]));
     // 
     // ll->display();

@@ -140,17 +140,15 @@ bool LinkedList::pay(unsigned cents, unsigned amount){
     
     cout<<"Please hand over the money - type in the value of each note/coin in cents"<<endl;
     cout<<"Please press Enter or ctrl-d on a new line to cancel the payment"<<endl;
-    cout<<"You need to give us: "<<cents/100.0<<endl;
+    // cout<<"You need to give us: "<<cents/100.0<<endl;
     bool ret =false;
     vector<int> valid_demons{5,10,20,50,100,200,500,1000};
-    string input = Helper::readInput();
-    while (!cin.eof() && input.size() !=0 && cents>0){
-        
-        cout<<"You still need to give us: "<<cents/100.0<<endl;
+    bool continue_while_loop = true;
+    string input;
+    if (std::cin.eof()){
+        std::cin.clear();
+        // std::cin.ignore(,"\n");
     }
-    cout<<ret<<endl;
-        
-    
     return ret; 
 }
 
