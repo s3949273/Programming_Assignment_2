@@ -70,6 +70,7 @@ public:
     */
     Stock(string id, string name, string description, Price price, unsigned on_hand);
     ~Stock();
+    
 };
 
 /**
@@ -79,6 +80,7 @@ class Node
 {
 public:
     Node();
+    Node(Node& other);
     Node(Stock* data);
     ~Node();
     // pointer to the data held for the node 
