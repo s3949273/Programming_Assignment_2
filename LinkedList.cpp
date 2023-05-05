@@ -20,17 +20,31 @@ LinkedList::LinkedList() {
 LinkedList::~LinkedList() {
     Node* head = this->head;
     if (this->head != nullptr){
-        while(head->next != nullptr){
+        for(unsigned x = 0; x<this->count; x++){
             Node* cur = head;
             head = head->next;
             delete cur;
             cur = nullptr;
         }
-        delete head;
-        head = nullptr;
     }
     
 };
+
+void LinkedList::test(){
+    Node* head = this->head;
+    for(size_t x =0; x<this->count; x++){
+        cout<<head->data->id<<endl;
+        head = head->next;
+    }
+}
+
+unsigned LinkedList::get_count(){
+    return this->count;
+}
+
+// static void swap(Node* a, Node* b){
+//     Node* temp = new Node(*a);
+// }
 
 void LinkedList::open_stock_file(string filepath){
     try{
@@ -51,7 +65,7 @@ void LinkedList::open_stock_file(string filepath){
                         Stock* stock = new Stock(output_stock[0],output_stock[1],output_stock[2],Price(stoi(given_price[0]), stoi(given_price[1])),(stoi(output_stock[4])));
                         Node* new_node = new Node(stock);
                         this->append(new_node);
-                        this->count ++;
+                        this->count +=1;
                     }catch(std::exception& e){
                         cout<<e.what()<<endl;
                     }
@@ -133,22 +147,22 @@ bool LinkedList::add_item(){
 
     return ret;
 };
-
 //REQ 5
 bool LinkedList::pay(unsigned cents, unsigned amount){
+
     //valid denoms to check whether the payment being received is a valid denomination
     
-    cout<<"Please hand over the money - type in the value of each note/coin in cents"<<endl;
-    cout<<"Please press Enter or ctrl-d on a new line to cancel the payment"<<endl;
-    // cout<<"You need to give us: "<<cents/100.0<<endl;
+    // cout<<"Please hand over the money - type in the value of each note/coin in cents"<<endl;
+    // cout<<"Please press Enter or ctrl-d on a new line to cancel the payment"<<endl;
+    // // cout<<"You need to give us: "<<cents/100.0<<endl;
     bool ret =false;
-    vector<int> valid_demons{5,10,20,50,100,200,500,1000};
-    bool continue_while_loop = true;
-    string input;
-    if (std::cin.eof()){
-        std::cin.clear();
-        // std::cin.ignore(,"\n");
-    }
+    // vector<int> valid_demons{5,10,20,50,100,200,500,1000};
+    // // bool continue_while_loop = true;
+    // string input;
+    // if (std::cin.eof()){
+    //     std::cin.clear();
+    //     // std::cin.ignore(,"\n");
+    // }
     return ret; 
 }
 
@@ -165,12 +179,13 @@ bool LinkedList::purchase_item(){
     }
     return ret;
 }
+
 Node* LinkedList::get_node(size_t index){
     Node* ret = nullptr;
-    if (index < this->count){
+    if (index <= this->count){
         //only do something if the index the person wants to 
         //get to is less than the size of the linkedlist
-        Node* ret = this->head;
+        ret = this->head;
         while (ret->next!= nullptr && index > 0){
             ret = ret->next;
             index --;
@@ -205,6 +220,7 @@ bool LinkedList::remove_item(){
     }
     return ret;
 }
+
 bool LinkedList::append(Node* node){
     bool ret =false;
     if (this->head != nullptr){
