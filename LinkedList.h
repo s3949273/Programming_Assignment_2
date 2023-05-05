@@ -27,10 +27,10 @@ public:
     Stock* searchID(string ID);
     bool remove_item();
     Node* get_node(size_t index);
+    unsigned get_count();
 private:
     // the beginning of the list
     Node* head;
-    Node* tail;
     // how many nodes are there in the list?
     unsigned count;
 };
