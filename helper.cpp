@@ -1,5 +1,6 @@
 //code taken from assignment 1 template
 #include "helper.h"
+#include "LinkedList.h"
 #include <iostream>
 #include <algorithm>
 
