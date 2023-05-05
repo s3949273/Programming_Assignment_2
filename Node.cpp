@@ -27,9 +27,14 @@ Price::~Price(){
 }
 
 // };
+Node::Node(){
+    this->data = nullptr;
+    this->next = nullptr;
+}
 
 Node::Node(Stock* stock):data(stock), next(nullptr){
 };
+Node::Node(Node& other):data(other.data), next(other.next){}
 
 Node::~Node(){
     delete this->data;  
