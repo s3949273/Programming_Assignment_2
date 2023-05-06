@@ -64,7 +64,7 @@ std::vector<Coin*> Coin::parse_coin_file(string filepath){
                 if(Helper::is_int(output_coins.at(0)) && Helper::is_int(output_coins.at(1))){
                     int denom = stoi(output_coins.at(0));
                     if(Helper::is_valid_denom(denom)){
-                        ret[counter] = (new Coin(this->unit_to_Denomination(denom), stoi(output_coins.at(1))));
+                        ret[7-counter] = (new Coin(this->unit_to_Denomination(denom), stoi(output_coins.at(1))));
                     }else{
                         string error_message = "denomination given was not valid at line: "+std::to_string(counter+1);
                         throw std::invalid_argument(error_message);
