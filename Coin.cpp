@@ -25,10 +25,9 @@ Denomination Coin::unit_to_Denomination(unsigned x){
         there's no need to make some overly complicated function using for loops or whatever
         when 8 if statements will do the trick
     */
-    Denomination ret;
-    if (x== 5){
-        ret = FIVE_CENTS;
-    }else if(x == 10){
+    Denomination ret = Denomination(FIVE_CENTS);
+    //we don't check for five cents because ret's default value is five cents
+    if(x == 10){
         ret = TEN_CENTS;
     }else if(x == 20){
         ret = TWENTY_CENTS;
@@ -46,35 +45,41 @@ Denomination Coin::unit_to_Denomination(unsigned x){
     return ret;
 }
 
-std::vector<Coin> Coin::parse_coin_file(string filepath){
+std::vector<Coin*> Coin::parse_coin_file(string filepath){
     ifstream coins(filepath);
     string line_coins;
     vector<string> output_coins;
     std::vector<Coin*> ret(8);
     try{
+        cout<<"trying to open: "<<filepath<<endl;
+        int counter = 0;
         while (getline(coins, line_coins)){
             Helper::splitString(line_coins, output_coins, ",");
             if (output_coins.size() > 2){
-                throw std::invalid_argument("too many attributes given to build coin object");
+                string error_message = "too many attributes given to build coin object at line: "+std::to_string(counter+1);
+                throw std::invalid_argument(error_message);
             }else{
-                if(Helper::isNumber(output_coins.at(0)) && Helper::isNumber(output_coins.at(1))){
+                output_coins[0] = Helper::strip(output_coins.at(0));
+                output_coins[1] = Helper::strip(output_coins.at(1));
+                if(Helper::is_int(output_coins.at(0)) && Helper::is_int(output_coins.at(1))){
                     int denom = stoi(output_coins.at(0));
                     if(Helper::is_valid_denom(denom)){
-                        Denomination coin_denom = this->unit_to_Denomination(denom);
-                        ret.push_back(new Coin());
+                        ret[counter] = (new Coin(this->unit_to_Denomination(denom), stoi(output_coins.at(1))));
                     }else{
-                        throw std::invalid_argument("denomination given was not valid");
+                        string error_message = "denomination given was not valid at line: "+std::to_string(counter+1);
+                        throw std::invalid_argument(error_message);
                     }
-
                 }else{
-                    throw std::invalid_argument("one of the argument of the coin object being built had either a decimal or a letter in it");
+                    string error_message = "one of the argument of the coin object being built had either a decimal or a letter in it at line: "+std::to_string(counter+1);
+                    throw std::invalid_argument(error_message);
                 }
             }
+            counter ++;
         }
-
+        coins.close();
     }
     catch(std::invalid_argument& e){
         cout<<e.what()<<endl;
     }
-
+    return ret;
 }

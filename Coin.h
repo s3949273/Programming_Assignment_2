@@ -1,6 +1,7 @@
 #ifndef COIN_H
 #define COIN_H
-
+#include <iostream>
+#include <vector>
 // Coin.h defines the coin structure for managing currency in the system. 
 #define DELIM ","  // delimiter 
 
@@ -25,7 +26,7 @@ public:
 
     Coin();
     Coin(Denomination denom, unsigned count);
-    std::vector<Coin> parse_coin_file(std::string filepath);
+    std::vector<Coin*> parse_coin_file(std::string filepath);
     void print();
     Denomination unit_to_Denomination(unsigned x);
 };
