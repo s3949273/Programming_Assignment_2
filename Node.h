@@ -70,7 +70,7 @@ public:
     */
     Stock(string id, string name, string description, Price price, unsigned on_hand);
     ~Stock();
-    
+
 };
 
 /**

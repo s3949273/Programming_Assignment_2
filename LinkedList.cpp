@@ -1,5 +1,6 @@
 #include "LinkedList.h"
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <iostream>
 #include <dirent.h>
@@ -30,13 +31,6 @@ LinkedList::~LinkedList() {
     
 };
 
-void LinkedList::test(){
-    Node* head = this->head;
-    for(size_t x =0; x<this->count; x++){
-        cout<<head->data->id<<endl;
-        head = head->next;
-    }
-}
 
 unsigned LinkedList::get_count(){
     return this->count;
@@ -81,8 +75,8 @@ void LinkedList::open_stock_file(string filepath){
     }
 };
 
-Stock* LinkedList::searchID(std::string ID){
-    Stock* ret = nullptr;
+Node* LinkedList::searchID(std::string ID){
+    Node* ret = nullptr;
     Node* head = this->head;
     //found used to prematurely break out of the while loop when the ID is found
     bool found = false;
@@ -90,22 +84,14 @@ Stock* LinkedList::searchID(std::string ID){
         while (head->next != nullptr && found == false){
             if (ID == head->data->id){
                 found = true;
-                ret->id = head->data->id;
-                ret->description = head->data->description;
-                ret->price = head->data->price;
-                ret->on_hand = head->data->on_hand;
-                ret->name = head->data->name;
+                ret = head;
             }
             head = head->next;
         }
         //in the case that the head is the tail
         if(ID == head->data->id){
                 found = true;   
-                ret->id = head->data->id;
-                ret->description = head->data->description;
-                ret->price = head->data->price;
-                ret->on_hand = head->data->on_hand;
-                ret->name = head->data->name;
+                ret = head;
         }
     };
     if (this->head == nullptr && !found){
@@ -148,34 +134,70 @@ bool LinkedList::add_item(){
     return ret;
 };
 //REQ 5
-bool LinkedList::pay(unsigned cents, unsigned amount){
-
+bool LinkedList::pay(int price){
     //valid denoms to check whether the payment being received is a valid denomination
-    
-    // cout<<"Please hand over the money - type in the value of each note/coin in cents"<<endl;
-    // cout<<"Please press Enter or ctrl-d on a new line to cancel the payment"<<endl;
-    // // cout<<"You need to give us: "<<cents/100.0<<endl;
-    bool ret =false;
-    // vector<int> valid_demons{5,10,20,50,100,200,500,1000};
-    // // bool continue_while_loop = true;
-    // string input;
-    // if (std::cin.eof()){
-    //     std::cin.clear();
-    //     // std::cin.ignore(,"\n");
-    // }
-    return ret; 
-}
+    cout<<"Please hand over the money - type in the value of each note/coin in cents"<<endl;
+    cout<<"Please press Enter or ctrl-d on a new line to cancel the payment"<<endl;
+    bool ret = false;
+    // bool enough_money = false;
+    bool enter_pressed = false;
+    cout<<"You need to give us:"<<price/100.0<<endl;
+    string input = Helper::strip(Helper::readInput());
+    vector<unsigned> valid_denoms{5,10,20,50,100,200,500,1000};
+    while(price > 0 && !enter_pressed){
+        if(input.size() == 0){
+            //if enter is pressed, we don't want to do anything else
+            enter_pressed= true;
+        }else{ 
+            if(Helper::isNumber(input)){
+                unsigned given = stoi(input);
+                if(Helper::is_valid_denom(given)){
+                    price -= given;
+                }else{
+                    cout<<given<<" was not a valid denomination"<<endl;
+                }
+            }else{
+                cout<<"You entered"<<input<<"it is not a valid denominations"<<endl;
+            }
+            if(price > 0){
+                cout<<"You still need to give us:"<<price/100.0<<endl;
+                input = Helper::strip(Helper::readInput());
+            }
 
+        }
+    }
+    if (price == 0){
+        ret = true;
+    }
+    else if (price < 0){
+        //the program needs to do change management
+        cout<<"you are entitled to change!"<<endl;
+    }
+    return ret;
+}
 bool LinkedList::purchase_item(){
     bool ret = false;
     cout<<"please enter the ID of the item you'd like to buy:";
-    //read the input and strip it to contain just the number
-    string id = Helper::strip_ID(Helper::readInput());
-    if (Helper::isNumber(id)){
-        
-        ret = true;
-    }else{
-        cout<<"you tried to enter either a letter or a decimal "<<endl;
+    string id = Helper::strip(Helper::readInput());
+    try{
+        Node* n = this->searchID(id);
+        if(n->data->on_hand > 0){
+            cout<<"Sorry there is not sufficient stock of the item you want to purchase"<<endl;
+        cout<<"You have selected:"<<endl;
+        cout<<"\tName: "<<n->data->name<<endl;
+        cout<<"\tDescription: "<<n->data->description<<endl;
+        cout<<"this will cost you:";
+        n->data->price.display();
+        unsigned price = n->data->price.dollars*100+ n->data->price.cents;
+        bool paid = this->pay(price);
+            if(paid){
+                ret = true;
+            }
+        }else{
+            cout<<"sorry there isn't sufficient stock for the item you want to purchase"<<endl;
+        }
+    }catch (std::out_of_range & e){
+        cout<<e.what()<<endl;
     }
     return ret;
 }

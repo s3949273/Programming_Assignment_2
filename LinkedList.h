@@ -17,14 +17,14 @@ public:
     bool remove(Node* node);
     
     //handles the payment in purchase item
-    bool pay(unsigned cents, unsigned amount);
+    bool pay(int x);
     bool purchase_item();
     bool pop();
-
+    void display_item(string ID);
     void display();
     void open_stock_file(string filepath);
     bool add_item();
-    Stock* searchID(string ID);
+    Node* searchID(string ID);
     bool remove_item();
     Node* get_node(size_t index);
     unsigned get_count();

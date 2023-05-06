@@ -56,6 +56,8 @@ public:
         it really just checks whether the input was a whole number or not
         
     */
+   
     static bool is_int(std::string s);
+    static bool is_valid_denom(unsigned x);
 };
 #endif

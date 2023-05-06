@@ -114,4 +114,14 @@ string Helper::generate_ID(int x){
     return id;
 }
 
+bool Helper::is_valid_denom(unsigned given){
+    bool ret= false;
+    vector<unsigned> valid_denoms{5,10,15,20,50,100,200,500,1000};
+    for (const auto &it: valid_denoms){
+        if(it == given){
+            ret = true;
+        }
+    }
+    return ret;
+}
 //
