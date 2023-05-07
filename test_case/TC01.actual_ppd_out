@@ -80,4 +80,20 @@ Administrator-Only Menu
    8. Reset Coins
    9. Abort program
 Select your option (1-9): 
+Denomination: 1000
+Count: 3
+Denomination: 500
+Count: 4
+Denomination: 200
+Count: 20
+Denomination: 100
+Count: 30
+Denomination: 50
+Count: 5
+Denomination: 20
+Count: 3
+Denomination: 10
+Count: 40
+Denomination: 5
+Count: 20
 finished reading files

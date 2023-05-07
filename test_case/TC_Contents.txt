@@ -8,4 +8,4 @@ TC07 - check OPTION_7 and OPTION_8 | Reset Stock / Reset Coin
 TC08 - check OPTION_9 | Abort Program
 
 A test is run using the following command. 
-./ppd test_case/TC01.stock TC01.coins < test_case/TC01.input > test_case/TC01.actual_ppd_out
+./ppd test_case/TC01.stock test_case/TC01.coins < test_case/TC01.input > test_case/TC01.actual_ppd_out
