@@ -68,6 +68,7 @@ void menu_option_2(LinkedList* stock) {
 
 int main(int argc, char **argv)
 {
+    cout << "hello";
     //Input and output files
     FILE * stdin;
     FILE * stdout;
@@ -109,7 +110,7 @@ int main(int argc, char **argv)
             }
             //Checks if user pressed ENTER. If not true, throw an exception.
             else if (input.length() != 0) {
-                throw std::runtime_error("Invalid input");
+                throw std::runtime_error("invalid input");
             }
         }
         catch(std::exception& e){
