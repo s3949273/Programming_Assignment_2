@@ -68,7 +68,6 @@ void menu_option_2(LinkedList* stock) {
 
 int main(int argc, char **argv)
 {
-    cout << "hello";
     //Input and output files
     FILE * stdin;
     FILE * stdout;
@@ -76,7 +75,7 @@ int main(int argc, char **argv)
     if (argc != 3){throw std::invalid_argument("Invalid number of arguments");}
     LinkedList* all_stock = new LinkedList();
     //Read stock file 
-    // all_stock->open_stock_file(string(argv[1]));
+    all_stock->open_stock_file(string(argv[1]));
 
     bool valid_input = true;
     while (valid_input){
