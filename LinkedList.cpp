@@ -134,11 +134,11 @@ bool LinkedList::add_item(){
     return ret;
 };
 //REQ 5
-bool LinkedList::pay(int price){
+int LinkedList::pay(int price, vector<Coin*> till){
     //valid denoms to check whether the payment being received is a valid denomination
     cout<<"Please hand over the money - type in the value of each note/coin in cents"<<endl;
     cout<<"Please press Enter or ctrl-d on a new line to cancel the payment"<<endl;
-    bool ret = false;
+    int ret = price;
     // bool enough_money = false;
     bool enter_pressed = false;
     cout<<"You need to give us:"<<price/100.0<<endl;
@@ -167,15 +167,17 @@ bool LinkedList::pay(int price){
         }
     }
     if (price == 0){
-        ret = true;
+        ret = 0;
     }
     else if (price < 0){
         //the program needs to do change management
         cout<<"you are entitled to change!"<<endl;
+        ret = price;
     }
     return ret;
 }
-bool LinkedList::purchase_item(){
+bool LinkedList::purchase_item(vector<Coin*> till){
+    //till represents the coins in the register
     bool ret = false;
     cout<<"please enter the ID of the item you'd like to buy:";
     string id = Helper::strip(Helper::readInput());
@@ -189,9 +191,17 @@ bool LinkedList::purchase_item(){
         cout<<"this will cost you:";
         n->data->price.display();
         unsigned price = n->data->price.dollars*100+ n->data->price.cents;
-        bool paid = this->pay(price);
-            if(paid){
+        int paid = this->pay(price, till);
+            if(paid == 0){
                 ret = true;
+            }else if(paid <0){
+                if(Helper::do_change(paid, till).size() != 0){
+                    cout<<"Here is your"<<n->data->name<<" and your change: "<<paid<<": "+Helper::do_change(paid, till);
+                    ret = true;
+                }else{
+                    cout<<"There wasn't enough coins in the register to give you your change, here's all of the coins you gave us"<<endl;
+                    
+                }
             }
         }else{
             cout<<"sorry there isn't sufficient stock for the item you want to purchase"<<endl;

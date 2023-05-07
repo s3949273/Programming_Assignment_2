@@ -24,6 +24,8 @@ int main(int argc, char* argv[]){
     // ll->display();
     Coin c = Coin();
     std::vector<Coin*> coins = c.parse_coin_file(string(argv[2]));
+    cout<<Helper::do_change(1050,coins)<<endl;
+    
     // cout<<ll->pay(50)<<endl;
     // ll->add_item();
     // Node* n = new Node(new Stock(string("I0001"), string("block"), string("1 node in linkedlist"), Price(1,1), 10));

@@ -17,8 +17,8 @@ public:
     bool remove(Node* node);
     
     //handles the payment in purchase item
-    bool pay(int x);
-    bool purchase_item();
+    int pay(int x,std::vector<Coin*> till);
+    bool purchase_item(std::vector<Coin*> till);
     bool pop();
     void display_item(string ID);
     void display();
