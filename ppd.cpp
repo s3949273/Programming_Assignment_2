@@ -76,7 +76,6 @@ int main(int argc, char **argv)
     LinkedList* all_stock = new LinkedList();
     //Read stock file 
     all_stock->open_stock_file(string(argv[1]));
-
     bool valid_input = true;
     while (valid_input){
         try{

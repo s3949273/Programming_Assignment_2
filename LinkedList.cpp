@@ -35,10 +35,6 @@ unsigned LinkedList::get_count(){
     return this->count;
 }
 
-// static void swap(Node* a, Node* b){
-//     Node* temp = new Node(*a);
-// }
-// node1 node2 node3 node4 node5 node6 node7 node8 node9 node
 void LinkedList::insert(Node* node, Node* prevNode){
     if (prevNode == nullptr){
         node->next  = this->head;
@@ -49,18 +45,29 @@ void LinkedList::insert(Node* node, Node* prevNode){
     }
 }
 
-void LinkedList::insertionsort(){
-    // node1 node2 node3 node4 node5 node6 
+// string LinkedList::get_Lowest_ID(){
+//     for i in range LinkedList
+
+// }
+void LinkedList::insertionsort(bool SortBy){
     Node* currentNode = this->head;
     for (size_t i = 1;i<this->count;i++){
         currentNode = currentNode->next;
         Node* comparisonNode = this->head;
         Node* previousNode = nullptr;
         size_t j = 0;
+        if (SortBy){// sort by Name
         while (currentNode->data->name  > comparisonNode->data->name && j<i){
             previousNode = comparisonNode;
             comparisonNode = comparisonNode->next;
             j++;
+        }
+        }else{// sort by ID
+            while (currentNode->data->id  > comparisonNode->data->id && j<i){
+            previousNode = comparisonNode;
+            comparisonNode = comparisonNode->next;
+            j++;
+        }
         }
         if (j != i){
             this->get_node(i-1)->next = currentNode->next;
@@ -90,7 +97,6 @@ void LinkedList::open_stock_file(string filepath){
                         Stock* stock = new Stock(output_stock[0],output_stock[1],output_stock[2],Price(stoi(given_price[0]), stoi(given_price[1])),(stoi(output_stock[4])));
                         Node* new_node = new Node(stock);
                         this->append(new_node);
-                        this->count +=1;
                     }catch(std::exception& e){
                         cout<<e.what()<<endl;
                     }
@@ -332,6 +338,7 @@ bool LinkedList::pop(){
 }
 
 void LinkedList::display(){
+    insertionsort(true);
     cout<<"Items Menu"<<endl;
     cout<<"----------"<<endl;
     cout.width(46);

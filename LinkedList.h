@@ -18,13 +18,14 @@ public:
     bool remove(Node* node);
     
     //handles the payment in purchase item
-    void insertionsort();
+    void insertionsort(bool SortBy);
     int pay(int x,std::vector<Coin*> till);
     bool purchase_item(std::vector<Coin*> till);
     bool pop();
     void display_item(string ID);
     void display();
     void open_stock_file(string filepath);
+    string get_Lowest_ID();
     bool add_item();
     Node* searchID(string ID);
     bool remove_item();
