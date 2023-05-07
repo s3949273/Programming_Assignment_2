@@ -123,14 +123,14 @@ int main(int argc, char **argv)
 
     try{
         string coins_data = string(argv[2]);
-        ifstream coins(coins_data);
+        ifstream input_coins(coins_data);
         string line_coins;
-        vector<string> output_coins;
-        while (getline(coins, line_coins)){
-            Helper::splitString(line_coins, output_coins, DELIM);
-            cash_register.push_back(Coin(static_cast<Denomination>(stoi(output_coins[0])), stoi(output_coins[1])));
+        vector<string> coins;
+        while (getline(input_coins, line_coins)){
+            Helper::splitString(line_coins, coins, DELIM);
+            cash_register.push_back(Coin(static_cast<Denomination>(stoi(coins[0])), stoi(coins[1])));
         }
-        coins.close();
+        input_coins.close();
         for (list<Coin>::iterator it=cash_register.begin(); it != cash_register.end(); it++){
             it->print();
         }

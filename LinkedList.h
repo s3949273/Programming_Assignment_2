@@ -20,6 +20,8 @@ public:
     //handles the payment in purchase item
     void insertionsort(bool SortBy);
     int pay(int x,std::vector<Coin*> till);
+    void write_to_stock_file();
+    void write_to_coin_file();
     bool purchase_item(std::vector<Coin*> till);
     bool pop();
     void display_item(string ID);

@@ -38,6 +38,7 @@ int main(int argc, char* argv[]){
     ll->append(n5);
     ll->insertionsort(false);
     ll->display();
+    ll->write_to_stock_file();
     
     delete ll;
     return 0;

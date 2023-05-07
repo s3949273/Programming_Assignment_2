@@ -12,7 +12,7 @@ using std::endl;
 using std::ifstream;
 using std::vector;
 using std::string;
-
+using std::ofstream;
 LinkedList::LinkedList() {
    this->head = nullptr;
    this->count = 0;
@@ -335,6 +335,23 @@ bool LinkedList::pop(){
         cout<<e.what()<<endl;
     }
     return ret;
+}
+void LinkedList::write_to_stock_file(){
+    insertionsort(false);
+    Node* curNode = this->head;
+    string s = "";
+    while(curNode != nullptr){
+        s += curNode->data->id + "|"+curNode->data->name + "|" + curNode->data->description + "|" + std::to_string(curNode->data->price.dollars);
+        s += "." + std::to_string(curNode->data->price.cents) + "|" + std::to_string(curNode->data->on_hand) + "\n";
+        curNode = curNode->next;
+    }
+    ofstream MyFile("stock.dat");
+    MyFile << s;
+    MyFile.close();
+    
+}
+void LinkedList::write_to_coin_file(){
+    
 }
 
 void LinkedList::display(){
