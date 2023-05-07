@@ -14,8 +14,8 @@ using std::vector;
 using std::string;
 
 LinkedList::LinkedList() {
-   head = nullptr;
-   count = 0;
+   this->head = nullptr;
+   this->count = 0;
 }
 
 LinkedList::~LinkedList() {
@@ -31,7 +31,6 @@ LinkedList::~LinkedList() {
     
 };
 
-
 unsigned LinkedList::get_count(){
     return this->count;
 }
@@ -39,6 +38,38 @@ unsigned LinkedList::get_count(){
 // static void swap(Node* a, Node* b){
 //     Node* temp = new Node(*a);
 // }
+// node1 node2 node3 node4 node5 node6 node7 node8 node9 node
+void LinkedList::insert(Node* node, Node* prevNode){
+    if (prevNode == nullptr){
+        node->next  = this->head;
+        this->head =  node;        
+    }else{
+        node->next  = prevNode->next;
+        prevNode->next = node;        
+    }
+}
+
+void LinkedList::insertionsort(){
+    // node1 node2 node3 node4 node5 node6 
+    Node* currentNode = this->head;
+    for (size_t i = 1;i<this->count;i++){
+        currentNode = currentNode->next;
+        Node* comparisonNode = this->head;
+        Node* previousNode = nullptr;
+        size_t j = 0;
+        while (currentNode->data->name  > comparisonNode->data->name && j<i){
+            previousNode = comparisonNode;
+            comparisonNode = comparisonNode->next;
+            j++;
+        }
+        if (j != i){
+            this->get_node(i-1)->next = currentNode->next;
+            this->insert(currentNode,previousNode);
+            currentNode = this->get_node(i);
+        }
+    }
+
+} 
 
 void LinkedList::open_stock_file(string filepath){
     try{

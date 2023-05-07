@@ -10,13 +10,15 @@ public:
     ~LinkedList();
 
     bool append(Node* node);
-    bool insert(Node node, unsigned index);
+    void insert(Node* node, Node* prevNode);
+    Node* goToIndex(int Index);
     /*
         params: Node* node: the node before the node you want to delete
     */
     bool remove(Node* node);
     
     //handles the payment in purchase item
+    void insertionsort();
     int pay(int x,std::vector<Coin*> till);
     bool purchase_item(std::vector<Coin*> till);
     bool pop();
