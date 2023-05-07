@@ -125,3 +125,36 @@ bool Helper::is_valid_denom(unsigned given){
     return ret;
 }
 //
+
+std::string Helper::do_change(int cents, std::vector<Coin*>till){
+    string ret = "";
+    int change_needed = cents;
+    vector<int> denoms {5,10,20,50,100,200,500,1000};
+    int max_cent_value = 0;
+    for(size_t x =0; x<till.size(); x++){
+        max_cent_value+= denoms.at(x)*till.at(x)->count;
+    }
+    size_t counter = 7;
+    string s ="";
+    if(max_cent_value > cents){
+        while (change_needed > 0){
+            while(change_needed - denoms.at(counter) >=0 && till.at(counter)->count >0 && change_needed > 0){
+                    change_needed -= denoms[counter];
+                    till.at(counter)->count --;
+                    if(till.at(counter)->denom/100.0 >= 1){
+                        ret.append("$"+std::to_string(denoms.at(counter)/100)+" ");       
+                    }else{
+                        ret.append(std::to_string(till.at(counter)->denom) + "c ");    
+                    }       
+            }
+            counter --;
+        }
+    }
+    std::cout<<std::endl;
+    if (change_needed != 0){
+        //if for some reason the change wasn't enough in the register, we will reset ret
+        ret = "";
+    }
+    return ret;
+    
+}

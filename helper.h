@@ -2,7 +2,7 @@
 
 #ifndef HELPER_H
 #define HELPER_H
-
+#include "Coin.h"
 #include <iostream>
 #include <string>
 #include <cassert>
@@ -56,7 +56,7 @@ public:
         it really just checks whether the input was a whole number or not
         
     */
-   
+    static std::string do_change(int cents, std::vector<Coin*>till);
     static bool is_int(std::string s);
     static bool is_valid_denom(unsigned x);
 };
