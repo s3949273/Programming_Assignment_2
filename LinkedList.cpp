@@ -106,7 +106,7 @@ void LinkedList::open_stock_file(string filepath){
         }
         
         stocks.close();
-        cout<<"Successfully read stock file and created Linkedlist Nodes"<<endl;
+        // cout<<"Successfully read stock file and created Linkedlist Nodes"<<endl;
     }catch(std::exception& e){
         cout<<e.what()<<endl;
     }
@@ -351,7 +351,7 @@ void LinkedList::write_to_stock_file(){
     
 }
 void LinkedList::write_to_coin_file(){
-    
+
 }
 
 void LinkedList::display(){

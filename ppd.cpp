@@ -140,7 +140,7 @@ int main(int argc, char **argv)
         cout<<e.what()<<endl;
     }
     
-    cout<<"finished reading files"<<endl;
+    // cout<<"finished reading files"<<endl;
     
     return EXIT_SUCCESS;
 }
