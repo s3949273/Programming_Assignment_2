@@ -68,6 +68,9 @@ void menu_option_2(LinkedList* stock) {
 
 int main(int argc, char **argv)
 {
+    //Input and output files
+    FILE * stdin;
+    FILE * stdout;
     //Validating command line arguments
     if (argc != 3){throw std::invalid_argument("Invalid number of arguments");}
     LinkedList* all_stock = new LinkedList();
