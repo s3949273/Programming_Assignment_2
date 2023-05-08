@@ -1,0 +1,41 @@
+Main menu:
+   1. Display Items
+   2. Purchase Items
+   3. Save and Exit
+Administrator-Only Menu
+   4. Add Item
+   5. Remove Item
+   6. Display Coins
+   7. Reset Stock
+   8. Reset Coins
+   9. Abort program
+Select your option (1-9): 
+Enter the id of the item you would like to purchase
+
+couldn't find the ID in the stock
+Main menu:
+   1. Display Items
+   2. Purchase Items
+   3. Save and Exit
+Administrator-Only Menu
+   4. Add Item
+   5. Remove Item
+   6. Display Coins
+   7. Reset Stock
+   8. Reset Coins
+   9. Abort program
+Select your option (1-9): 
+Enter the id of the item you would like to purchase
+
+You have selected:
+	Meat Pie
+	Yummy Beef in Gravy surrounded by pastry
+This will cost you: $3.50 
+Please hand over the money - type in the value of each note/coin in cents.
+Please press enter or ctrl-d on a new line to cancel this purchase
+
+Error: $3.00 is not a valid denomination of money. Please try again
+You still need to give us: $3.50
+
+EOF detected while trying to take coins input
+

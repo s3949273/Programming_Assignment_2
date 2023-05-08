@@ -68,8 +68,8 @@ int main(int argc, char **argv)
             //Checks if user has exited the program or user pressed ctrl+d
             else if (input == OPTION_3 || cin.eof()){
                 //Update files and save data before clearing memory
-                CR->write_to_coin_file(coins_file_name);
-                all_stock->write_to_stock_file(stock_file_name);
+                // CR->write_to_coin_file(coins_file_name);
+                // all_stock->write_to_stock_file(stock_file_name);
                 valid_input = false;
             }
             //Admin options

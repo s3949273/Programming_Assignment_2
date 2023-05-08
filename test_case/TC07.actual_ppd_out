@@ -1,0 +1,48 @@
+Main menu:
+   1. Display Items
+   2. Purchase Items
+   3. Save and Exit
+Administrator-Only Menu
+   4. Add Item
+   5. Remove Item
+   6. Display Coins
+   7. Reset Stock
+   8. Reset Coins
+   9. Abort program
+Select your option (1-9): 
+Coins Summary
+-------------
+Denomination     |     Count
+-----------------------------
+5 Cents          |         20
+10 Cents         |         40
+20 Cents         |          3
+50 Cents         |          5
+1 Dollars        |         30
+2 Dollars        |         20
+5 Dollars        |          4
+10 Dollars       |          3
+Main menu:
+   1. Display Items
+   2. Purchase Items
+   3. Save and Exit
+Administrator-Only Menu
+   4. Add Item
+   5. Remove Item
+   6. Display Coins
+   7. Reset Stock
+   8. Reset Coins
+   9. Abort program
+Select your option (1-9): 
+Main menu:
+   1. Display Items
+   2. Purchase Items
+   3. Save and Exit
+Administrator-Only Menu
+   4. Add Item
+   5. Remove Item
+   6. Display Coins
+   7. Reset Stock
+   8. Reset Coins
+   9. Abort program
+Select your option (1-9): 

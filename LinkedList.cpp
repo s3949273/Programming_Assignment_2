@@ -139,10 +139,12 @@ Node* LinkedList::searchID(std::string ID){
     };
     if (this->head == nullptr && !found){
         //there was no stock in the linkedlist
-        throw std::out_of_range("No stock in the linkedlist");
+        cout<<"No stock in the linked list\n"<<endl;
+        // throw std::out_of_range("No stock in the linkedlist");
     }if (!found){
         //there was stock in the linkedlist but the id wasn't found
-        throw std::out_of_range("couldn't find the ID in the stock");
+        cout<<"Couldn't find the ID in the stock\n"<<endl;
+        // throw std::out_of_range("couldn't find the ID in the stock");
     }
     return ret;
 };
@@ -152,6 +154,7 @@ void LinkedList::add_item(){
     while (loop) {
         try{
             string id = this->get_lowest_ID(); 
+            cout<<"The id of the new stock will be: "<<id<<"\n"<<endl;
             //Name input
             cout<<"Enter item name: ";
             string name_input = Helper::readInput();
@@ -181,7 +184,7 @@ void LinkedList::add_item(){
             vector<string> price_split;
             Helper::splitString(price_input, price_split, ".");
         
-            if (price_split.size() != 2){
+            if (stoi(price_input) < 0 || price_split.size() != 2 || price_split.at(1).size() != 2){
                 throw std::invalid_argument(
                     "Price was not correctly formatted"
                 );
@@ -196,6 +199,7 @@ void LinkedList::add_item(){
                 )
             );
             this->append(new_node);
+            cout<<"\""<<name_input<<", "<<desc_input<<".\" has now been added to the menu.\n"<<endl;
             loop = false;
         }
         catch(std::exception& e){
@@ -208,137 +212,141 @@ void LinkedList::add_item(){
 bool LinkedList::purchaseItem(CashRegister* cr){
     bool ret = false;
     try{
-        cout<<"Enter the id of the item you would like to purchase"<<endl;
+        cout<<"Please enter the id of the item you wish to purchase: ";
         string input = Helper::readInput();
+        if(cin.eof()){throw std::runtime_error("");}
+        Node* item_to_purchase = this->searchID(input);
+        while (item_to_purchase==nullptr){
+            if(!input.empty()){
+                cout<<"Invalid input\n"<<endl;
+            }
+            cout<<"Please enter the id of the item you wish to purchase: ";
+            input = Helper::readInput();
+            item_to_purchase = this->searchID(input);
+        }
+        vector<int>valid_denoms = {5,10,20,50,100,200,500,1000};
         
-        if(cin.eof()){
-            throw std::invalid_argument("eof detected in LinkedList::purchaseItem()");
+        if (item_to_purchase->data->on_hand <=0){
+            throw std::invalid_argument("Not enough stock for the item you tried to purchase");
         }
-        if(input.empty()){
-            throw std::invalid_argument("empty string given, returning to main menu");
-        }
-        if(this->searchID(input)==nullptr){
-            throw std::invalid_argument("id not found for item you wanted to purchase, returning to main menu");
+        cout<<"You have selected ";
+        cout<<item_to_purchase->data->name<<" - ";
+        cout<<item_to_purchase->data->description<<". ";
+        cout<<"This will cost you: ";
+        int price_of_item = item_to_purchase->data->price.dollars*100+item_to_purchase->data->price.cents;
+        if(price_of_item/100.0 >=1){
+            printf("$%.2f \n", price_of_item/100.0);
         }else{
-            vector<int>valid_denoms = {5,10,20,50,100,200,500,1000};
-            Node* item_to_purchase = this->searchID(input);
-            if (item_to_purchase->data->on_hand <=0){
-                throw std::invalid_argument("not enough stock for the item you tried to purchase");
+            cout<<price_of_item<<"c"<<endl;
+        }
+        cout<<"Please hand over the money - type in the value of each note/coin in cents."<<endl;
+        cout<<"Please press enter or ctrl-d on a new line to cancel this purchase: ";
+        vector<unsigned> given_coins(8,0);
+        int to_give = price_of_item;
+        bool valid_input = true;
+        while (to_give >0 && valid_input){
+            string input = Helper::readInput();
+            if(cin.eof()){
+                throw std::invalid_argument("");
             }
-            cout<<"You have selected:"<<endl;
-            cout<<"\t"<<item_to_purchase->data->name<<endl;
-            cout<<"\t"<<item_to_purchase->data->description<<endl;
-            cout<<"This will cost you: ";
-            int price_of_item = item_to_purchase->data->price.dollars*100+item_to_purchase->data->price.cents;
-            if(price_of_item/100.0 >1){
-                printf("$%.2f \n", price_of_item/100.0);
-            }else{
-                cout<<price_of_item<<"c"<<endl;
+            if(input.empty()){
+                    cout<<"You pressed enter"<<endl;
+                    valid_input = false;
             }
-            cout<<"Please hand over the money - type in the value of each note/coin in cents."<<endl;
-            cout<<"Please press enter or ctrl-d on a new line to cancel this purchase"<<endl;
-            vector<unsigned> given_coins(8,0);
-            int to_give = price_of_item;
-            bool valid_input = true;
-            while (to_give >0 && valid_input){
-                string input = Helper::readInput();
-                if(cin.eof()){
-                    throw std::invalid_argument("EOF detected while trying to take coins input");
-                }
-                if(input.empty()){
-                        valid_input = false;
-                }
-                if(valid_input){
-                    //just so that it doesn't unecessarily print all this stuff
-                    if(Helper::isNumber(input)){
-                        int given_cents = stoi(input);
-                        if(Helper::is_valid_denom(given_cents)){
-                            given_coins.at(cr->get_index_for_denom(given_cents))++;
-                            to_give -= given_cents;
-                        }else{
-                            cout<<"Error: ";
-                            if(given_cents > 100){
-                                printf("$%.2f ",given_cents/100.0);
-                            }else{
-                                cout<<given_cents<<"c ";
-                            }
-                            cout<<"is not a valid denomination of money. Please try again"<<endl;
-                        }
+            if(valid_input){
+                //just so that it doesn't unecessarily print all this stuff
+                if(Helper::isNumber(input)){
+                    int given_cents = stoi(input);
+                    if(Helper::is_valid_denom(given_cents)){
+                        given_coins.at(cr->get_index_for_denom(given_cents))++;
+                        to_give -= given_cents;
                     }else{
-                        cout<<"invalid input for coin, not a number"<<endl;
+                        cout<<"Error: ";
+                        if(given_cents >= 100){
+                            printf("$%.2f ",given_cents/100.0);
+                        }else{
+                            cout<<given_cents<<"c ";
+                        }
+                        cout<<"is not a valid denomination of money. Please try again"<<endl;
                     }
-                    
-                    if(to_give/100.0 >1){
-                        cout<<"You still need to give us: ";
-                        // cout<<"$"<<to_give/100.0<<endl;
-                        printf("$%.2f\n", to_give/100.0);
-                    }else if(to_give >0){
-                        cout<<"You still need to give us: ";
-                        cout<<to_give<<"c"<<endl;
+                }else{
+                    cout<<"invalid input for coin, not a number"<<endl;
+                }
+                if(to_give/100.0 >=1){
+                    cout<<"You still need to give us ";
+                    // cout<<"$"<<to_give/100.0<<endl;
+                    printf("$%.2f: ", to_give/100.0);
+                }else if(to_give >0){
+                    cout<<"You still need to give us ";
+                    cout<<to_give<<"c : ";
+                }
+            }
+        }          
+        if(to_give == 0){
+            //if you give it exactly the amount of money it requires
+            for(size_t x=0; x<cr->coins.size(); x++){
+                cr->coins.at(x)->count+=given_coins.at(x);
+            }
+            cout<<"Here is your change: "<<item_to_purchase->data->name<<endl;
+            item_to_purchase->data->on_hand--;
+            ret = true;
+        }else if (to_give > 0){
+            //interupted in the middle of the while loop
+            if (to_give < price_of_item){
+                //the user acutally gave some coins so we have to return them
+                cout<<"Here is your change: "<<endl;            
+                for(size_t x=0; x<given_coins.size(); x++){
+                    if (given_coins.at(x)>0){
+                        for (unsigned y = 0; y<given_coins.at(x); y++){
+                            if(valid_denoms.at(x) >= 100){
+                                //dollar or more
+                                cout<<"$"<<(valid_denoms.at(x)/100)<<" ";
+                            }else{
+                                //in the cents
+                                cout<<valid_denoms.at(x)<<"c ";
+                            }
+                            given_coins.at(x)--;
+                        }
                     }
                 }
-            }          
-            if(to_give == 0){
-                for(size_t x=0; x<cr->coins.size(); x++){
-                    cr->coins.at(x)->count+=given_coins.at(x);
-                }
-                cout<<"here is your: "<<item_to_purchase->data->name<<endl;
+                cout<<endl;
+            }
+        }else if(to_give < 0){
+            //you are entitled to change
+            for(size_t x = 0; x<given_coins.size(); x++){
+                cr->coins.at(x)->count += given_coins.at(x);
+            }
+            bool x = cr->do_change(abs(to_give));
+            if (x){
+                cout<<"Here is your: "<<item_to_purchase->data->name<<"\n"<<endl;
                 item_to_purchase->data->on_hand--;
                 ret = true;
-            }else if (to_give > 0){
-                if (to_give < price_of_item){
-                    //the user acutally gave some coins so we have to return them
-                    cout<<"here are your coins:"<<endl;            
-                    for(size_t x=0; x<given_coins.size(); x++){
-                        if (given_coins.at(x)>0){
-                            for (unsigned y = 0; y<given_coins.at(x); y++){
-                                if(valid_denoms.at(x) >= 100){
-                                    //dollar or more
-                                    cout<<"$"<<(valid_denoms.at(x)/100)<<" ";
-                                }else{
-                                    //in the cents
-                                    cout<<valid_denoms.at(x)<<"c ";
-                                }
-                                given_coins.at(x)--;
+            }else{
+                //not enough money in the register
+                cout<<"Sorry, there wasn't enough coins in the register to give you your change. :"<<endl;
+                cout<<"Here are your coins back"<<endl;
+                for(size_t x=0; x<given_coins.size(); x++){
+                    if (given_coins.at(x)>0){
+                        for (unsigned y = 0; y<given_coins.at(x); y++){
+                            if(valid_denoms.at(x) >= 100){
+                                //dollar or more
+                                cout<<"$"<<(valid_denoms.at(x)/100.0)<<" ";
+                            }else{
+                                //in the cents
+                                cout<<valid_denoms.at(x)<<"c ";
                             }
+                            given_coins.at(x)--;
+                            cr->coins.at(x)->count--;
                         }
                     }
-                    cout<<endl;
                 }
-            }else if(to_give < 0){
-                for(size_t x = 0; x<given_coins.size(); x++){
-                    cr->coins.at(x)->count += given_coins.at(x);
-                }
-                bool x = cr->do_change(abs(to_give));
-                if (x){
-                    cout<<"here is your: "<<item_to_purchase->data->name<<endl;
-                    item_to_purchase->data->on_hand--;
-                    ret = true;
-                }else{
-                    cout<<"sorry, there wasn't enough coins in the register to give you your change. :("<<endl;
-                    cout<<"Here are your coins back"<<endl;
-                    for(size_t x=0; x<given_coins.size(); x++){
-                        if (given_coins.at(x)>0){
-                            for (unsigned y = 0; y<given_coins.at(x); y++){
-                                if(valid_denoms.at(x) >= 100){
-                                    //dollar or more
-                                    cout<<"$"<<(valid_denoms.at(x)/100.0)<<" ";
-                                }else{
-                                    //in the cents
-                                    cout<<valid_denoms.at(x)<<"c ";
-                                }
-                                given_coins.at(x)--;
-                                cr->coins.at(x)->count--;
-                            }
-                        }
-                    }
-                    cout<<endl;
-                }
+                cout<<endl;
             }
         }
     }
     catch(std::exception& e){
         cout<<e.what()<<endl;
+        // ret = this->purchaseItem(cr);
     }
     return ret;
 }
@@ -374,7 +382,7 @@ void LinkedList::append(Node* currentNode){
 void LinkedList::remove_item(){
     cout<<"Please enter the ID of the item you'd like to remove: ";
     string id = Helper::readInput();
-    if (id.find("I") != string::npos || id.size() >5){
+    if (id.find("I") != string::npos && id.size() == 5){
         Node* curnode = this->head;
         Node* prevnode = nullptr;
         size_t i = 0;
@@ -385,10 +393,12 @@ void LinkedList::remove_item(){
         }
         if (prevnode == nullptr){
             this->head =  this->head->next;
+            cout << "This item \"" <<curnode->data->id <<" - " <<curnode->data->name << " - " << curnode->data->description << ".\" has now been removed from the system.\n"<<endl;
             delete curnode;
             this->count--;
         }else if(i < this->count){
             prevnode->next = curnode->next;
+            cout << "This item \"" <<curnode->data->id <<" - " <<curnode->data->name << " - " << curnode->data->description << ".\" has now been removed from the system.\n"<<endl;
             delete curnode;
             this->count--;    
         }else{
@@ -429,8 +439,7 @@ string  LinkedList::get_lowest_ID(){
     string ret = "";
     if (this->head != nullptr){
         insertionsort(false);
-        cout<<"finished sorting"<<endl;
-        int i = 0;
+        unsigned int i = 0;
         int a = 0;
         Node* currentNode = this->head;
         string previousID = "";
@@ -453,7 +462,7 @@ string  LinkedList::get_lowest_ID(){
     }
     else { ret = "I0001";}
     return ret;
-    }
+}
 
 void LinkedList::write_to_stock_file(string stockfile){
     insertionsort(false);

@@ -52,7 +52,6 @@ std::vector<Coin*> Coin::parse_coin_file(string filepath){
     vector<string> output_coins;
     std::vector<Coin*> ret(8);
     try{
-        cout<<"trying to open: "<<filepath<<endl;
         int counter = 0;
         while (getline(coins, line_coins)){
             Helper::splitString(line_coins, output_coins, ",");

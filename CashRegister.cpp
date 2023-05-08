@@ -52,7 +52,6 @@ void CashRegister::parse_coin_file(std::string filepath){
     vector<string> output_coins;
     std::vector<Coin*> ret(8);
     try{
-        cout<<"trying to open: "<<filepath<<endl;
         int counter = 0;
         while (getline(coins, line_coins)){
             Helper::splitString(line_coins, output_coins, ",");
@@ -119,7 +118,7 @@ bool CashRegister::do_change(int cents){
     if(cents <= this->max_coin_value){
         //there are enough coins in the register to be able to accomodate the change
         size_t counter = 7;
-        cout<<"change is: ";
+        cout<<"Here is your change:";
         while(change > 0 && counter >0){
             
             while((double(change)/this->coins.at(counter)->denom) >= 1 && this->coins.at(counter)->count> 0){
