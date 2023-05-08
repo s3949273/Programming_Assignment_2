@@ -16,7 +16,7 @@ class CashRegister{
     ~CashRegister();
     
     void parse_coin_file(std::string filepath);
-    void write_to_coin_file();
+    void write_to_coin_file(std::string coinsfile);
     void display_coins();
     void reset_coin_count();
     bool do_change(int cents);    

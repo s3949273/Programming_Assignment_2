@@ -25,6 +25,7 @@ LinkedList::~LinkedList() {
     if (this->head != nullptr){
         for(unsigned x = 0; x<this->count; x++){
             Node* cur = head;
+            cout<<"at"<<head->data->id<<endl;
             head = head->next;
             delete cur;
             cur = nullptr;
@@ -151,7 +152,7 @@ void LinkedList::add_item(){
     bool loop = true;
     while (loop) {
         try{
-            string id = Helper::generate_ID(count); 
+            string id = this->get_lowest_ID(); 
             //Name input
             cout<<"Enter item name: ";
             string name_input = Helper::readInput();
@@ -162,9 +163,11 @@ void LinkedList::add_item(){
                     "for product name"
                 );
             }
+            
             //Item description input
             cout<<"Enter item description: ";
             string desc_input = Helper::readInput();
+            
             //Check length of description
             if (desc_input.size() > DESCLEN) {
                 throw std::invalid_argument(
@@ -172,11 +175,13 @@ void LinkedList::add_item(){
                     "for product description"
                 );
             }
+            
             //Item price input
             cout<<"Enter the price for the item: ";
             string price_input = Helper::readInput();
             vector<string> price_split;
             Helper::splitString(price_input, price_split, ".");
+            
             if (price_split.size() != 2){
                 throw std::invalid_argument(
                     "Price was not correctly formatted"
@@ -192,7 +197,6 @@ void LinkedList::add_item(){
                 )
             );
             this->append(new_node);
-            this->count++;
             loop = false;
         }
         catch(std::exception& e){
@@ -336,7 +340,6 @@ Node* LinkedList::get_node(size_t index){
     return ret;
 }
 
-
 void LinkedList::append(Node* currentNode){
     Node* comparisonNode = this->head;
     Node* previousNode = nullptr;
@@ -349,7 +352,6 @@ void LinkedList::append(Node* currentNode){
     this->insert(currentNode,previousNode);
     this->count++;
 }
-
 
 //REQ 8
 void LinkedList::remove_item(){
@@ -381,8 +383,6 @@ void LinkedList::remove_item(){
     }
 }
 
-
-
 void LinkedList::reset_stock_count(){
     Node* head = this->head;
     for(size_t x = 0; x<this->count; x++){
@@ -407,21 +407,37 @@ bool LinkedList::remove(Node* node_before_delete){
     }
     return ret;
 }
-// string  LinkedList::get_lowest_ID(){
-//     string ret = "";
-//     if (this->head!= nullptr){
-//     insertionsort(false);
-//     int i = 0;
-//     Node* currentNode = this->head;
-//     string previousID = "";
-//     while (i < this->count && ret == ""){
-            
-//     }
-//     insertionsort(true);
-//     }
-//     else { ret = "I0001"}
-//     return ret;
-// }
+
+string  LinkedList::get_lowest_ID(){
+    string ret = "";
+    if (this->head != nullptr){
+        insertionsort(false);
+        cout<<"finished sorting"<<endl;
+        int i = 0;
+        int a = 0;
+        Node* currentNode = this->head;
+        string previousID = "";
+        while (i < this->count-1 && ret == ""){
+            previousID = currentNode->data->id;
+            currentNode = currentNode->next;
+            a = Helper::strip_ID(previousID);
+            int b = Helper::strip_ID(currentNode->data->id);
+            if (a!=-1 && b!= -1 && a+1<b){
+                a+=1;
+                ret = previousID;
+            }
+            i++;
+        }
+        if (ret == ""){
+            a = this->count+1;
+        }
+            ret =  Helper::generate_ID(a);
+        insertionsort(true);
+    }
+    else { ret = "I0001";}
+    return ret;
+    }
+
 void LinkedList::write_to_stock_file(string stockfile){
     insertionsort(false);
     Node* curNode = this->head;
@@ -435,7 +451,6 @@ void LinkedList::write_to_stock_file(string stockfile){
     MyFile << s;
     MyFile.close();
     insertionsort(true);
-    
 }
 
 void LinkedList::display_stock(){

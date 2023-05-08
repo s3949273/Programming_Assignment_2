@@ -2,11 +2,10 @@
 #include <iostream>
 #include <fstream> 
 
-#define TAB "   "
-
 using std::string;
 using std::vector;
 using std::ifstream;
+using std::ofstream;
 using std::cout;
 using std::endl;
 
@@ -18,6 +17,14 @@ CashRegister::CashRegister(string filepath){
     this->coins.resize(8);
     this->parse_coin_file(filepath);
     this->max_coin_value = this->get_max_coin_value();
+}
+
+CashRegister::~CashRegister(){
+    size_t counter = 0;
+    while(counter <=7){
+        delete this->coins.at(counter);
+        counter++;
+    }
 }
 
 int CashRegister::get_index_for_denom(unsigned x){
@@ -81,8 +88,14 @@ void CashRegister::parse_coin_file(std::string filepath){
 
 }
 
-void CashRegister::write_to_coin_file(){
- //TOD
+void CashRegister::write_to_coin_file(std::string coinsfile){
+    std::string s = "";
+    for (size_t x = 0; x<this->coins.size(); x++){
+        s += std::to_string(this->coins.at(x)->denom) + "," + std::to_string(this->coins.at(x)->count) + "\n";
+    }
+    ofstream MyFile(coinsfile);
+    MyFile << s;
+    MyFile.close();
 }
 int CashRegister::get_max_coin_value(){
     int ret = 0;
@@ -133,11 +146,16 @@ bool CashRegister::do_change(int cents){
 
 
 void CashRegister::display_coins(){
-    cout<<"Coin Summary"<<endl;
-    cout<<"------------"<<endl;
-    cout<<"Denomination"<<TAB<<"|"<<TAB<<"Count"<<endl;
+    cout<<"Coins Summary"<<endl;
+    cout<<"-------------"<<endl;
+    cout<<"Denomination     |     Count"<<endl;
+    cout<<"-----------------------------"<<endl;
     for(size_t x = 0; x<this->coins.size(); x++){
-        cout<<this->coins.at(x)->denom<<" ";
-        cout<<this->coins.at(x)->count<<endl;
+        if (this->coins.at(x)->denom%100 != 0) {
+            cout<<this->coins.at(x)->denom<<" Cents"<<string(11 - std::to_string(this->coins.at(x)->denom).length(),' ')<<"|";
+        }else{
+            cout<<this->coins.at(x)->denom/100<<" Dollars"<<string(9 - std::to_string(this->coins.at(x)->denom/100).length(),' ')<<"|";
+        }
+        cout<<string(11 - std::to_string(this->coins.at(x)->count).length(),' ')<<this->coins.at(x)->count<<endl;
     }
 }

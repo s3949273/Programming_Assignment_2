@@ -89,14 +89,20 @@ bool Helper::is_int(string s){
     return ret;
 }
 
-string Helper::strip_ID(string id){
+int Helper::strip_ID(string id){
     id = Helper::strip(id);
     //get rid of the I
     id = id.substr(1,id.size());
     //get rid of the 0;
     //referenced from: https://stackoverflow.com/questions/25726531/how-to-remove-leading-zeros-from-string-using-c 
+    int ret =-1;
     id.erase(0,id.find_first_not_of("0"));
-    return id;
+    try{
+        ret = stoi(id);
+    }catch(std::exception& e){
+        std::cout<<"warning could not return an integer, returning -1"<<std::endl;
+    }
+    return ret;
 }
 
 string Helper::generate_ID(int x){

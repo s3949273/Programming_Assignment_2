@@ -61,10 +61,12 @@ int main(int argc, char **argv)
                 all_stock->display_stock();
             }
             else if (input == OPTION_2){
-                // menu_option_2(all_stock);
+                all_stock->purchaseItem(CR);
             }
-            else if (input == OPTION_3){
-                //Update files here
+            //Checks if user has exited the program or user pressed ctrl+d
+            else if (input == OPTION_3 || cin.eof()){
+                //Update files and save data before clearing memory
+                CR->write_to_coin_file(coins_file_name);
                 all_stock->write_to_stock_file(stock_file_name);
                 valid_input = false;
             }
@@ -87,12 +89,13 @@ int main(int argc, char **argv)
             else if (input == OPTION_9){
                 valid_input = false;
             }
-            //Checks if user has exited the program i.e ctrl+d
-            else if (cin.eof()){
-                //Update files and save data before clearing memory
-                all_stock->write_to_stock_file(stock_file_name);
-                valid_input = false;
-            }
+            // //Checks if user has exited the program i.e ctrl+d
+            // else if (cin.eof()){
+            //     //Update files and save data before clearing memory
+            //     CR->write_to_coin_file(coins_file_name);
+            //     all_stock->write_to_stock_file(stock_file_name);
+            //     valid_input = false;
+            // }
             //Checks if user pressed ENTER. If not true, throw an exception.
             else if (input.length() != 0) {
                 throw std::runtime_error("invalid input");
@@ -104,7 +107,7 @@ int main(int argc, char **argv)
     }
     //Clear memory here
     delete all_stock;
-    // delete CR;
+    delete CR;
     
     return EXIT_SUCCESS;
 }
