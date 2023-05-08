@@ -25,7 +25,6 @@ LinkedList::~LinkedList() {
     if (this->head != nullptr){
         for(unsigned x = 0; x<this->count; x++){
             Node* cur = head;
-            cout<<"at"<<head->data->id<<endl;
             head = head->next;
             delete cur;
             cur = nullptr;
@@ -219,7 +218,7 @@ bool LinkedList::purchaseItem(CashRegister* cr){
             throw std::invalid_argument("empty string given, returning to main menu");
         }
         if(this->searchID(input)==nullptr){
-            throw std::invalid_argument("id not found for item you wanted to purchase, retunring to main menu");
+            throw std::invalid_argument("id not found for item you wanted to purchase, returning to main menu");
         }else{
             vector<int>valid_denoms = {5,10,20,50,100,200,500,1000};
             Node* item_to_purchase = this->searchID(input);
@@ -229,13 +228,15 @@ bool LinkedList::purchaseItem(CashRegister* cr){
             cout<<"You have selected:"<<endl;
             cout<<"\t"<<item_to_purchase->data->name<<endl;
             cout<<"\t"<<item_to_purchase->data->description<<endl;
-            cout<<"this will cost you: ";
+            cout<<"This will cost you: ";
             int price_of_item = item_to_purchase->data->price.dollars*100+item_to_purchase->data->price.cents;
             if(price_of_item/100.0 >1){
-                cout<<"$"<<price_of_item/100.0<<endl;
+                printf("$%.2f \n", price_of_item/100.0);
             }else{
                 cout<<price_of_item<<"c"<<endl;
             }
+            cout<<"Please hand over the money - type in the value of each note/coin in cents."<<endl;
+            cout<<"Please press enter or ctrl-d on a new line to cancel this purchase"<<endl;
             vector<unsigned> given_coins(8,0);
             int to_give = price_of_item;
             bool valid_input = true;
@@ -255,10 +256,25 @@ bool LinkedList::purchaseItem(CashRegister* cr){
                             given_coins.at(cr->get_index_for_denom(given_cents))++;
                             to_give -= given_cents;
                         }else{
-                            cout<<"not a valid denomination"<<endl;
+                            cout<<"Error: ";
+                            if(given_cents > 100){
+                                printf("$%.2f ",given_cents/100.0);
+                            }else{
+                                cout<<given_cents<<"c ";
+                            }
+                            cout<<"is not a valid denomination of money. Please try again"<<endl;
                         }
                     }else{
                         cout<<"invalid input for coin, not a number"<<endl;
+                    }
+                    
+                    if(to_give/100.0 >1){
+                        cout<<"You still need to give us: ";
+                        // cout<<"$"<<to_give/100.0<<endl;
+                        printf("$%.2f\n", to_give/100.0);
+                    }else if(to_give >0){
+                        cout<<"You still need to give us: ";
+                        cout<<to_give<<"c"<<endl;
                     }
                 }
             }          
@@ -267,6 +283,7 @@ bool LinkedList::purchaseItem(CashRegister* cr){
                     cr->coins.at(x)->count+=given_coins.at(x);
                 }
                 cout<<"here is your: "<<item_to_purchase->data->name<<endl;
+                item_to_purchase->data->on_hand--;
                 ret = true;
             }else if (to_give > 0){
                 if (to_give < price_of_item){
@@ -289,13 +306,13 @@ bool LinkedList::purchaseItem(CashRegister* cr){
                     cout<<endl;
                 }
             }else if(to_give < 0){
-                for(size_t x = 0; x<given_coins.size(); x--){
-                    //since the coins vector (not the coins given by user) is from biggest denom to lowest
-                    //we go from the end to the front of given_coins as it goes in low to high
+                for(size_t x = 0; x<given_coins.size(); x++){
                     cr->coins.at(x)->count += given_coins.at(x);
                 }
                 bool x = cr->do_change(abs(to_give));
                 if (x){
+                    cout<<"here is your: "<<item_to_purchase->data->name<<endl;
+                    item_to_purchase->data->on_hand--;
                     ret = true;
                 }else{
                     cout<<"sorry, there wasn't enough coins in the register to give you your change. :("<<endl;
@@ -443,8 +460,9 @@ void LinkedList::write_to_stock_file(string stockfile){
     Node* curNode = this->head;
     string s = "";
     while(curNode != nullptr){
-        s += curNode->data->id + "|"+curNode->data->name + "|" + curNode->data->description + "|" + std::to_string(curNode->data->price.dollars);
-        s += "." + std::to_string(curNode->data->price.cents) + "|" + std::to_string(curNode->data->on_hand) + "\n";
+        s += curNode->data->id + "|"+curNode->data->name + "|" + curNode->data->description + "|"+
+        std::to_string(curNode->data->price.dollars) + "." + std::to_string(curNode->data->price.cents)
+        + "|" + std::to_string(curNode->data->on_hand) + "\n";
         curNode = curNode->next;
     }
     ofstream MyFile(stockfile);
@@ -490,210 +508,3 @@ void LinkedList::display_stock(){
         cout<<endl;
     }
 }
-
-
-
-
-// bool LinkedList::purchaseItem(vector<Coin>&coins)
-// {
-//     cout<<"Purchase Item\n"
-//         <<"-------------\n"
-//         <<"Please enter the id of the item you wish to purchase: ";
-//     string itemId;
-//     std::cin>>itemId;
-//     bool checkID = false;
-//     if (this->head == nullptr){
-//         cout<<"No items found"<<endl;
-//     }else{
-//         bool check = false;
-//         Node* head = this->head;
-//         while (head->next != nullptr){
-//             Stock* cur = head->data;
-//             if (cur->id == itemId){
-//                 if(cur->on_hand==0)
-//                 {
-//                     cout<<"Out of Stock\n";
-//                     return;
-//                 }
-//                 checkID=true;
-//                 cout<<"You have selected \""<<cur->name<<" - "
-//                     <<cur->description<<"\". This will cost you $ "
-//                     <<cur->price.dollars<<"."<<cur->price.cents<<".\nPlease hand over the money - " 
-//                     <<"type in the value of each note/coin in cents.\n"
-//                     <<"Press enter or ctrl-d on a new line to cancel this purchase:\n";
-//                     string str;
-//                     int amount;
-//                     unsigned int tempDollar = cur->price.dollars;
-//                     unsigned int tempCents = cur->price.cents;
-//                     int payable_amount = tempDollar*100 +tempCents;
-//                     cin.ignore();
-//                     while(payable_amount > 0)
-//                     {   if(payable_amount>99){   
-//                             float price = (float)payable_amount /100;
-//                             cout << "You still need to give us $" ;
-//                             printf("%.2f:",price);
-//                         }
-//                         else
-//                         {
-//                             cout << "You still need to give us "<<payable_amount<<"c:";
-//                         }
-//                         getline(cin,str);
-//                         if(str=="")
-//                             break;
-//                         amount = stoi(str);
-//                         if(amount!=5 && amount!=10 && amount!=20 && amount!=50 && amount!=100 && amount!=200 && amount!=500 && amount!=1000)
-//                         {
-//                             float price = (float)amount /100;
-//                             cout<<"Error:  $";
-//                             printf("%.2f",price);
-//                             cout<< " is not a valid denomination of money. Please try again.\n";
-//                             continue;
-//                         }
-//                         for(auto &i:coins)
-//                         {
-//                             if ((int)i.cents==amount)
-//                                 i.count+=1;
-//                         }
-//                         payable_amount -= amount;
-//                     }
-//                     payable_amount=abs(payable_amount);
-//                     int refund_amount=payable_amount;                     
-//                         vector<int> refund;
-//                         while(payable_amount > 0)
-//                         {
-//                             for(auto &i:coins)
-//                             {
-//                                 if(payable_amount>=(int)i.cent && i.count > 0)
-//                                 {
-//                                         payable_amount-=i.cent;
-//                                         i.count-=1;
-//                                         refund.push_back(i.cent);
-//                                         break;
-//                                 }
-//                             }
-//                         }
-//                         if(refund.empty())
-//                         {
-//                             cout<<"Here is your "<< cur->name <<endl; 
-//                             cur->on_hand-=1;
-//                         }
-//                         else
-//                         {
-//                             cur->on_hand-=1;
-//                             cout<<"Here is your "<< cur->name 
-//                             << " and your change of ";
-//                             float temp = (float)refund_amount/100;
-//                             printf("%.2f: ",temp);
-//                             for(auto i:refund)
-//                             {
-//                                 if(i>99)
-//                                 {
-//                                     cout<<"$"<<i/100<<" ";
-//                                 }
-//                                 else {
-//                                     cout<<i<<"c ";
-//                                 }
-//                             }
-//                         }
-//                 check = true;
-//                 break;
-//             }
-//             else
-//                 head = head->next;
-//         }
-//         Stock* cur = head->data;
-//          if (cur->id == itemId && !check){
-//                 if(cur->on_hand==0)
-//                 {
-//                     cout<<"Out of Stock\n";
-//                     return;
-//                 }
-//                 checkID=true;
-//                 cout<<"You have selected \""<<cur->name<<" - "
-//                     <<cur->description<<"\". This will cost you $ "
-//                     <<cur->price.dollars<<"."<<cur->price.cents<<".\nPlease hand over the money - " 
-//                     <<"type in the value of each note/coin in cents.\n"
-//                     <<"Press enter or ctrl-d on a new line to cancel this purchase:\n";
-//                     int amount;
-//                     string str;
-//                     unsigned int tempDollar = cur->price.dollars;
-//                     unsigned int tempCents = cur->price.cents;
-//                     int payable_amount = tempDollar*100 +tempCents;
-//                     cin.ignore();
-//                     while(payable_amount > 0)
-//                     {   if(payable_amount>99){   
-//                             float price = (float)payable_amount /100;
-//                             cout << "You still need to give us $" ;
-//                             printf("%.2f:",price);
-//                         }
-//                         else
-//                         {
-//                             cout << "You still need to give us "<<payable_amount<<"c:";
-//                         }
-//                         getline(cin,str);
-//                         if(str=="")
-//                             break;
-//                         amount = stoi(str);       
-//                         if(amount!=5 && amount!=10 && amount!=20 && amount!=50 && amount!=100 && amount!=200 && amount!=500 && amount!=1000)
-//                         {
-//                             float price = (float)amount /100;
-//                             cout<<"Error:  $";
-//                             printf("%.2f",price);
-//                             cout<< " is not a valid denomination of money. Please try again.\n";
-//                             continue;
-//                         }
-//                         for(auto &i:coins)
-//                         {
-//                             if ((int)i.cent==amount)
-//                                 i.count+=1;
-//                         }
-//                         payable_amount -= amount;
-//                     }
-//                     payable_amount=abs(payable_amount);
-//                     int refund_amount=payable_amount;                       
-//                         vector<int> refund;
-//                         while(payable_amount > 0)
-//                         {
-//                             for(auto &i:coins)
-//                             {
-//                                 if(payable_amount>=(int)i.cent && i.count > 0)
-//                                 {
-//                                         payable_amount-=i.cent;
-//                                         i.count-=1;
-//                                         refund.push_back(i.cent);
-//                                         break;
-//                                 }
-//                             }
-//                         }
-//                         if(refund.empty())
-//                         {
-//                             cur->on_hand-=1;
-//                             cout<<"Here is your "<< cur->name <<endl;                            
-//                         }
-//                         else
-//                         {
-//                             cur->on_hand-=1;
-//                             cout<<"Here is your "<< cur->name 
-//                             << " and your change of ";
-//                             float temp = (float)refund_amount/100;
-//                             printf("%.2f: ",temp);
-//                             for(auto i:refund)
-//                             {
-//                                 if(i>99)
-//                                 {
-//                                     cout<<"$"<<i/100<<" ";
-//                                 }
-//                                 else {
-//                                     cout<<i<<"c ";
-//                                 }
-//                             }
-//                         } 
-//             }
-//             else
-//                 head = head->next;
-//     }
-//     if(!checkID)
-//         cout<<"ID Not Found\n";
-//     else
-//         cout<<"\n";
-// }

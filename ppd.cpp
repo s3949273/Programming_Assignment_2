@@ -40,7 +40,9 @@ int main(int argc, char **argv)
     FILE * stdin;
     FILE * stdout;
     //Validating command line arguments
-    if (argc != 3){throw std::invalid_argument("Invalid number of arguments");}
+    if (argc != 3){
+        throw std::invalid_argument("Invalid number of arguments");
+    }
     //Get stock file name
     string stock_file_name = string(argv[1]); 
     //Get coins file name
@@ -89,15 +91,8 @@ int main(int argc, char **argv)
             else if (input == OPTION_9){
                 valid_input = false;
             }
-            // //Checks if user has exited the program i.e ctrl+d
-            // else if (cin.eof()){
-            //     //Update files and save data before clearing memory
-            //     CR->write_to_coin_file(coins_file_name);
-            //     all_stock->write_to_stock_file(stock_file_name);
-            //     valid_input = false;
-            // }
             //Checks if user pressed ENTER. If not true, throw an exception.
-            else if (input.length() != 0) {
+            else if (!input.empty()) {
                 throw std::runtime_error("invalid input");
             }
         }
@@ -127,36 +122,3 @@ void print_main_menu() {
     cout<<TAB<<"9. Abort program"<<endl;
     cout<<"Select your option (1-9): ";
 }
-
-
-
-// void menu_option_2(LinkedList* stock) {
-//     if (!cin.eof()) {
-//         try{
-//             cout << "Purchase Item" << endl;
-//             cout << "-------------" << endl;
-//             cout << "Please enter the id of the item you wish to purchase: ";
-//             string ID = Helper::readInput();
-//             //Checks if user pressed ENTER or Ctrl+d
-//             if (ID.length() == 0 || cin.eof()) {
-//                 throw std::runtime_error("User pressed ENTER/Ctrl+d");
-//             }
-//             cout << "Please hand over the money - type in the value of each note/coin in cents" << endl;
-//             cout << "Press enter or ctrl-d on a new line to cancel this purchase" << endl;
-//             //Put this in a while loop
-//             /* 
-//             cout << "You still need to give us: ";
-//             string cash_input = Helper::readInput();
-//             //Checks if user pressed ENTER or Ctrl+d
-//             if (cash_input.length() == 0 || cin.eof()) {menu_option_2();}
-//             */
-//         }
-//         catch (std::runtime_error& e){
-//             menu_option_2(stock);
-//         }
-//         catch (std::exception& e){
-//             cout << e.what() << "\n" << endl;
-//             menu_option_2(stock);
-//         }
-//     }
-// }

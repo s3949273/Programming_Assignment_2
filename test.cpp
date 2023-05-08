@@ -23,11 +23,14 @@ int main(int argc, char* argv[]){
     // cout<<Helper::strip_ID(string("0"))<<endl;
     
     LinkedList* ll = new LinkedList();
-    // CashRegister* cr = new CashRegister(string(argv[2]));
+    CashRegister* cr = new CashRegister(string(argv[2]));
     ll->open_stock_file(string(argv[1]));
     ll->display_stock();
-    ll->add_item();
-    ll->display_stock();
+    // ll->add_item();
+    ll->purchaseItem(cr);
+    // ll->display_stock();
+    // cr->display_coins();
+    ll->write_to_stock_file(argv[1]);
     delete ll;
     // cout<<"done";
     return 0;

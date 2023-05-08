@@ -71,7 +71,8 @@ std::vector<Coin*> Coin::parse_coin_file(string filepath){
                         throw std::invalid_argument(error_message);
                     }
                 }else{
-                    string error_message = "one of the argument of the coin object being built had either a decimal or a letter in it at line: "+std::to_string(counter+1);
+                    string error_message ="one of the argument of the coin object being built had either a ";
+                    error_message += "decimal or a letter in it at line: "+ std::to_string(counter+1);
                     throw std::invalid_argument(error_message);
                 }
             }
