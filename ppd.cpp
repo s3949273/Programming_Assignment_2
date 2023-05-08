@@ -1,6 +1,7 @@
 #include <iostream>
 #include <dirent.h>
 #include "LinkedList.h"
+#include "CashRegister.h"
 #include "helper.h"
 #include <fstream> 
 #include <string>
@@ -16,8 +17,6 @@
 #define OPTION_7 "7" 
 #define OPTION_8 "8" 
 #define OPTION_9 "9" 
-#define DEFAULT_STOCK_LEVEL 20
-#define DEFAULT_COINS 5
 
 using std::cout;
 using std::cin;
@@ -73,9 +72,16 @@ int main(int argc, char **argv)
     FILE * stdout;
     //Validating command line arguments
     if (argc != 3){throw std::invalid_argument("Invalid number of arguments");}
+    //Get stock file name
+    string stock_file_name = string(argv[1]); 
+    //Get coins file name
+    string coins_file_name = string(argv[2]); 
+    //Create new linked list for stock
     LinkedList* all_stock = new LinkedList();
-    //Read stock file 
-    all_stock->open_stock_file(string(argv[1]));
+    //Read stock file
+    all_stock->open_stock_file(stock_file_name);
+    //Create Cash Register object
+    CashRegister* CR = new CashRegister(coins_file_name);
     bool valid_input = true;
     while (valid_input){
         try{
@@ -83,27 +89,39 @@ int main(int argc, char **argv)
             string input = Helper::readInput();
             //User options
             if (input == OPTION_1){
-                all_stock->display();
+                all_stock->display_stock();
             }
             else if (input == OPTION_2){
                 menu_option_2(all_stock);
             }
             else if (input == OPTION_3){
                 //Update files here
+                all_stock->write_to_stock_file(stock_file_name);
                 valid_input = false;
             }
             //Admin options
-            else if (input == OPTION_4){}
-            else if (input == OPTION_5){}
-            else if (input == OPTION_6){}
-            else if (input == OPTION_7){}
-            else if (input == OPTION_8){}
+            else if (input == OPTION_4){
+                all_stock->add_item();
+            }
+            else if (input == OPTION_5){
+                all_stock->remove_item();
+            }
+            else if (input == OPTION_6){
+                CR->display_coins();
+            }
+            else if (input == OPTION_7){
+                all_stock->reset_stock_count();
+            }
+            else if (input == OPTION_8){
+                CR->reset_coin_count();
+            }
             else if (input == OPTION_9){
                 valid_input = false;
             }
-            //Checks if user has terminated the program
+            //Checks if user has exited the program i.e ctrl+d
             else if (cin.eof()){
                 //Update files and save data before clearing memory
+                all_stock->write_to_stock_file(stock_file_name);
                 valid_input = false;
             }
             //Checks if user pressed ENTER. If not true, throw an exception.
@@ -114,33 +132,9 @@ int main(int argc, char **argv)
         catch(std::exception& e){
             cout << e.what() << "\n" << endl;
         }
-        //Clear memory here
-        // delete all_stock;
     }
-
-    list<Coin> cash_register;
-    /* read coin file*/
-
-    try{
-        string coins_data = string(argv[2]);
-        ifstream input_coins(coins_data);
-        string line_coins;
-        vector<string> coins;
-        while (getline(input_coins, line_coins)){
-            Helper::splitString(line_coins, coins, DELIM);
-            cash_register.push_back(Coin(static_cast<Denomination>(stoi(coins[0])), stoi(coins[1])));
-        }
-        input_coins.close();
-        for (list<Coin>::iterator it=cash_register.begin(); it != cash_register.end(); it++){
-            it->print();
-        }
-        
-        
-    }catch(std::exception& e){
-        cout<<e.what()<<endl;
-    }
-    
-    // cout<<"finished reading files"<<endl;
+    //Clear memory here
+    delete all_stock;
     
     return EXIT_SUCCESS;
 }

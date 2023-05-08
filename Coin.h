@@ -28,7 +28,7 @@ public:
     Coin(Denomination denom, unsigned count);
     std::vector<Coin*> parse_coin_file(std::string filepath);
     void print();
-    Denomination unit_to_Denomination(unsigned x);
+    static Denomination unit_to_Denomination(unsigned x);
 };
 
 #endif // COIN_H

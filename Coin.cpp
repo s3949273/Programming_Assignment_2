@@ -20,6 +20,7 @@ void Coin::print(){
     std::cout << "Denomination: " << this->denom << std::endl;
     std::cout << "Count: " << this->count << std::endl; 
 }
+
 Denomination Coin::unit_to_Denomination(unsigned x){
     /*
         there's no need to make some overly complicated function using for loops or whatever

@@ -35,8 +35,8 @@ public:
     // The dollar value, and the cents value for some price
     unsigned dollars, cents;
     Price(unsigned cents, unsigned dollars);
-    void display();
     ~Price();
+    void display();
 };
 
 /**
@@ -82,6 +82,7 @@ public:
     Node();
     Node(Node& other);
     Node(Stock* data);
+    
     ~Node();
     // pointer to the data held for the node 
     Stock* data;
@@ -90,6 +91,7 @@ public:
 
     //update the value at the 
     bool Update(Stock value);
+    void display_data();
 
 };
 

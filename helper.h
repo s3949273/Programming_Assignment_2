@@ -56,8 +56,9 @@ public:
         it really just checks whether the input was a whole number or not
         
     */
-    static std::string do_change(int cents, std::vector<Coin*>till);
+    static bool do_change(int cents, std::vector<Coin*>till);
     static bool is_int(std::string s);
     static bool is_valid_denom(unsigned x);
+    static int get_index_for_denom(unsigned x);
 };
 #endif

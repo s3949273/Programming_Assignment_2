@@ -1,6 +1,8 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
+
 #include "Node.h"
+#include "CashRegister.h"
 
 
 class LinkedList
@@ -9,7 +11,7 @@ public:
     LinkedList();
     ~LinkedList();
 
-    bool append(Node* node);
+    void append(Node* node);
     void insert(Node* node, Node* prevNode);
     Node* goToIndex(int Index);
     /*
@@ -19,18 +21,16 @@ public:
     
     //handles the payment in purchase item
     void insertionsort(bool SortBy);
-    int pay(int x,std::vector<Coin*> till);
-    void write_to_stock_file();
+    void write_to_stock_file(string stockfile);
     void write_to_coin_file();
-    bool purchase_item(std::vector<Coin*> till);
-    bool pop();
-    void display_item(string ID);
-    void display();
+    bool purchaseItem(CashRegister* till);
+    void display_stock();
     void open_stock_file(string filepath);
-    string get_Lowest_ID();
-    bool add_item();
+    void reset_stock_count();
+    string get_lowest_ID();
+    void add_item();
     Node* searchID(string ID);
-    bool remove_item();
+    void remove_item();
     Node* get_node(size_t index);
     unsigned get_count();
 private:

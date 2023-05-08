@@ -19,7 +19,12 @@ void Price::display(){
     cout<<cents<<endl;
 }
 
-Stock::Stock(string id, string name, string description, Price price, unsigned int on_hand):id(id), name(name), description(description),price(price), on_hand(on_hand){
+Stock::Stock(string id, string name, string description, Price price, unsigned int on_hand):
+    id(id), 
+    name(name), 
+    description(description),
+    price(price), 
+    on_hand(on_hand){
 };
 Stock::~Stock(){
 }
