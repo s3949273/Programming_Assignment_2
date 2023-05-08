@@ -37,8 +37,8 @@ void print_main_menu();
 int main(int argc, char **argv)
 {
     //Input and output files
-    // FILE * stdin;
-    // FILE * stdout;
+    FILE * stdin;
+    FILE * stdout;
     //Validating command line arguments
     if (argc != 3){throw std::invalid_argument("Invalid number of arguments");}
     //Get stock file name
@@ -104,6 +104,7 @@ int main(int argc, char **argv)
     }
     //Clear memory here
     delete all_stock;
+    // delete CR;
     
     return EXIT_SUCCESS;
 }

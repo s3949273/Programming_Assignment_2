@@ -85,7 +85,7 @@ void LinkedList::open_stock_file(string filepath){
             Helper::splitString(line_stock, output_stock, "|");
             if (output_stock.size() > 5){
                 throw std::invalid_argument(
-                    "Too many attributes given"
+                    "Too many attributes given "
                     "to build a stock object"
                 );
             }
@@ -158,7 +158,7 @@ void LinkedList::add_item(){
             //Check length of name
             if (name_input.size() > NAMELEN) {
                 throw std::invalid_argument(
-                    "Maximum length reached"
+                    "Maximum length reached "
                     "for product name"
                 );
             }
@@ -168,7 +168,7 @@ void LinkedList::add_item(){
             //Check length of description
             if (desc_input.size() > DESCLEN) {
                 throw std::invalid_argument(
-                    "Maximum length reached"
+                    "Maximum length reached "
                     "for product description"
                 );
             }
@@ -340,7 +340,7 @@ Node* LinkedList::get_node(size_t index){
 void LinkedList::append(Node* currentNode){
     Node* comparisonNode = this->head;
     Node* previousNode = nullptr;
-    int j = 0;
+    unsigned j = 0;
     while (j<this->count && currentNode->data->name > comparisonNode->data->name){
         previousNode = comparisonNode;
         comparisonNode = comparisonNode->next;
@@ -355,24 +355,29 @@ void LinkedList::append(Node* currentNode){
 void LinkedList::remove_item(){
     cout<<"Please enter the ID of the item you'd like to remove: ";
     string id = Helper::readInput();
-    if (id.find("I") != string::npos){
-        //there was an I in the Id like there's supposed to be so we strip it to get just the number
-        id = Helper::strip_ID(id);
-        if(Helper::is_int(id)){
-            //the remaining id is an integer
-            /*
-                we want to get to the node before the one we want to remove,
-                so that we can destroy the link from the before node to the 
-                node afer
-            */
-            Node* node_to_remove = this->get_node(stoi(id)-1);
-            //delete the one we want to delete
-            delete node_to_remove->next;
-            //create the new link to the one after;
-            node_to_remove->next = node_to_remove->next->next;
-        }else{
-            cout<<"ID was either a letter or a float (it had a decimal point in it)"<<endl;
+    if (id.find("I") != string::npos || id.size() >5){
+        Node* curnode = this->head;
+        Node* prevnode = nullptr;
+        size_t i = 0;
+        while (i<this->count && curnode->data->id != id){
+            prevnode = curnode;
+            curnode = curnode->next;
+            i++;
         }
+        if (prevnode == nullptr){
+            this->head =  this->head->next;
+            delete curnode;
+            this->count--;
+        }else if(i < this->count){
+            prevnode->next = curnode->next;
+            delete curnode;
+            this->count--;    
+        }else{
+            cout<<"The id was not found"<<endl;
+        }
+        
+    }else{
+        cout<<"you tried to remove with an invalid id"<<endl;
     }
 }
 
@@ -403,16 +408,18 @@ bool LinkedList::remove(Node* node_before_delete){
     return ret;
 }
 // string  LinkedList::get_lowest_ID(){
+//     string ret = "";
+//     if (this->head!= nullptr){
 //     insertionsort(false);
-//     string ret = "i0001";
-//     if this.head!= 
 //     int i = 0;
-//     Node* currentNode = this.head;
-//     while (i < this->count){
-       
-    
+//     Node* currentNode = this->head;
+//     string previousID = "";
+//     while (i < this->count && ret == ""){
+            
 //     }
 //     insertionsort(true);
+//     }
+//     else { ret = "I0001"}
 //     return ret;
 // }
 void LinkedList::write_to_stock_file(string stockfile){

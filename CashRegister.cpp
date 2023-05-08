@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream> 
 
+#define TAB "   "
+
 using std::string;
 using std::vector;
 using std::ifstream;
@@ -17,6 +19,7 @@ CashRegister::CashRegister(string filepath){
     this->parse_coin_file(filepath);
     this->max_coin_value = this->get_max_coin_value();
 }
+
 int CashRegister::get_index_for_denom(unsigned x){
     int ret = 0;
     if(x == 10){
@@ -130,6 +133,9 @@ bool CashRegister::do_change(int cents){
 
 
 void CashRegister::display_coins(){
+    cout<<"Coin Summary"<<endl;
+    cout<<"------------"<<endl;
+    cout<<"Denomination"<<TAB<<"|"<<TAB<<"Count"<<endl;
     for(size_t x = 0; x<this->coins.size(); x++){
         cout<<this->coins.at(x)->denom<<" ";
         cout<<this->coins.at(x)->count<<endl;
