@@ -103,11 +103,18 @@ bool CashRegister::do_change(int cents){
     if(cents <= this->max_coin_value){
         //there are enough coins in the register to be able to accomodate the change
         size_t counter = 7;
+        cout<<"change is: ";
         while(change > 0 && counter >0){
+            
             while((double(change)/this->coins.at(counter)->denom) >= 1 && this->coins.at(counter)->count> 0){
                 change -= this->coins.at(counter)->denom;
-                cout<<"denom is: "<<this->coins.at(counter)->denom<<endl;
-                cout<<"change is: "<<change<<" ";
+                // cout<<"denom is: "<<this->coins.at(counter)->denom<<endl;
+                if((this->coins.at(counter)->denom)/100.0 >=1){
+                    cout<<" $"<<(this->coins.at(counter)->denom)/100.0<<" ";
+                }else{
+                    cout<<this->coins.at(counter)->denom<<"c ";
+                }
+                
                 this->coins.at(counter)->count --;
             }
             counter--;

@@ -11,24 +11,6 @@
 
 
 
-// int main(int argc, char* argv[]){
-//     // Coin c = Coin();
-//     // CashRegister* cr = new CashRegister(string(argv[2]));   
-//     LinkedList* ll = new LinkedList();
-//     ll->open_stock_file(string(argv[1]));
-//     // ll->insertionsort(false);
-//     ll->display_stock();
-//     // ll->purchaseItem(cr);
-//     // cout<<cr->do_change(100)<<endl;
-//     cout<<"back to main menu"<<endl;
-    
-
-//     delete ll;
-//     return 0;
-// }
-
-
-
 using std::cout;
 using std::endl;
 using std::string;
@@ -41,10 +23,20 @@ int main(int argc, char* argv[]){
     // cout<<Helper::strip_ID(string("0"))<<endl;
     
     LinkedList* ll = new LinkedList();
+    // CashRegister* cr = new CashRegister(string(argv[2]));
     ll->open_stock_file(string(argv[1]));
+    Node* n = new Node(new Stock(string("I0001"), string("0002"), string("none"), Price(0,0), 0));
+    Node* n1 = new Node(new Stock(string("I0002"), string("0004"), string("none"), Price(0,0), 0));
+    Node* n2 = new Node(new Stock(string("I0003"), string("0001"), string("none"), Price(0,0), 0));
+    Node* n3 = new Node(new Stock(string("I0004"), string("0003"), string("none"), Price(0,0), 0));
+    
+    ll->append(n);
+    ll->append(n1);
+    ll->append(n2);
+    ll->append(n3);
     
     ll->display_stock();
-    // ll->write_to_stock_file();
+    // ll->purchaseItem();
     
     delete ll;
     return 0;
