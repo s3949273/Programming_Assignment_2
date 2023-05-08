@@ -250,7 +250,6 @@ bool LinkedList::purchaseItem(CashRegister* cr){
                         if(Helper::is_valid_denom(given_cents)){
                             given_coins.at(cr->get_index_for_denom(given_cents))++;
                             to_give -= given_cents;
-                            cout<<to_give<<endl;
                         }else{
                             cout<<"not a valid denomination"<<endl;
                         }
@@ -291,7 +290,7 @@ bool LinkedList::purchaseItem(CashRegister* cr){
                     //we go from the end to the front of given_coins as it goes in low to high
                     cr->coins.at(x)->count += given_coins.at(x);
                 }
-                bool x = cr->do_change(to_give);
+                bool x = cr->do_change(abs(to_give));
                 if (x){
                     ret = true;
                 }else{
@@ -302,7 +301,7 @@ bool LinkedList::purchaseItem(CashRegister* cr){
                             for (unsigned y = 0; y<given_coins.at(x); y++){
                                 if(valid_denoms.at(x) >= 100){
                                     //dollar or more
-                                    cout<<"$"<<(valid_denoms.at(x)/100)<<" ";
+                                    cout<<"$"<<(valid_denoms.at(x)/100.0)<<" ";
                                 }else{
                                     //in the cents
                                     cout<<valid_denoms.at(x)<<"c ";
@@ -403,7 +402,19 @@ bool LinkedList::remove(Node* node_before_delete){
     }
     return ret;
 }
-
+// string  LinkedList::get_lowest_ID(){
+//     insertionsort(false);
+//     string ret = "i0001";
+//     if this.head!= 
+//     int i = 0;
+//     Node* currentNode = this.head;
+//     while (i < this->count){
+       
+    
+//     }
+//     insertionsort(true);
+//     return ret;
+// }
 void LinkedList::write_to_stock_file(string stockfile){
     insertionsort(false);
     Node* curNode = this->head;
