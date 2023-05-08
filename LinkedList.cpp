@@ -180,7 +180,7 @@ void LinkedList::add_item(){
             string price_input = Helper::readInput();
             vector<string> price_split;
             Helper::splitString(price_input, price_split, ".");
-            
+        
             if (price_split.size() != 2){
                 throw std::invalid_argument(
                     "Price was not correctly formatted"
