@@ -96,6 +96,7 @@ void CashRegister::write_to_coin_file(std::string coinsfile){
     MyFile << s;
     MyFile.close();
 }
+
 int CashRegister::get_max_coin_value(){
     int ret = 0;
     for(size_t x =0; x<this->coins.size(); x++){
@@ -119,8 +120,7 @@ bool CashRegister::do_change(int cents){
         //there are enough coins in the register to be able to accomodate the change
         size_t counter = 7;
         cout<<"Here is your change:";
-        while(change > 0 && counter >0){
-            
+        while(change > 0 && counter >= 0){
             while((double(change)/this->coins.at(counter)->denom) >= 1 && this->coins.at(counter)->count> 0){
                 change -= this->coins.at(counter)->denom;
                 // cout<<"denom is: "<<this->coins.at(counter)->denom<<endl;
