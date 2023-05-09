@@ -10,19 +10,14 @@ Administrator-Only Menu
    8. Reset Coins
    9. Abort program
 Select your option (1-9): 
-Enter the id of the item you would like to purchase
-
-You have selected:
-	Meat Pie
-	Yummy Beef in Gravy surrounded by pastry
-This will cost you: $3.50 
+Please enter the id of the item you wish to purchase: 
+You have selected Meat Pie - Yummy Beef in Gravy surrounded by pastry. This will cost you: $3.50 
 Please hand over the money - type in the value of each note/coin in cents.
-Please press enter or ctrl-d on a new line to cancel this purchase
+Please press enter or ctrl-d on a new line to cancel this purchase: 
+You still need to give us $1.50: 
+Here is your change: $2  $1 50c 
+Here is your: Meat Pie
 
-You still need to give us: $1.50
-
-change is:  $2  $1 50c 
-here is your: Meat Pie
 Main menu:
    1. Display Items
    2. Purchase Items
@@ -35,18 +30,12 @@ Administrator-Only Menu
    8. Reset Coins
    9. Abort program
 Select your option (1-9): 
-Enter the id of the item you would like to purchase
-
-You have selected:
-	Apple Pie
-	Delicious Stewed Apple in a Yummy Pastry envelope
-This will cost you: $3.00 
+Please enter the id of the item you wish to purchase: 
+You have selected Apple Pie - Delicious Stewed Apple in a Yummy Pastry envelope. This will cost you: $3.00 
 Please hand over the money - type in the value of each note/coin in cents.
-Please press enter or ctrl-d on a new line to cancel this purchase
-
-You still need to give us: 100c
-
-here are your coins:
+Please press enter or ctrl-d on a new line to cancel this purchase: 
+You still need to give us $1.00: 
+Here is your change: 
 $2 
 Main menu:
    1. Display Items

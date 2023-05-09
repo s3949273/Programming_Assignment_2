@@ -23,6 +23,7 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::ifstream;
+using std::ofstream;
 using std::vector;
 using std::list;
 
@@ -47,6 +48,7 @@ int main(int argc, char **argv)
     string stock_file_name = string(argv[1]); 
     //Get coins file name
     string coins_file_name = string(argv[2]); 
+
     //Create new linked list for stock
     LinkedList* all_stock = new LinkedList();
     //Read stock file
@@ -68,8 +70,8 @@ int main(int argc, char **argv)
             //Checks if user has exited the program or user pressed ctrl+d
             else if (input == OPTION_3 || cin.eof()){
                 //Update files and save data before clearing memory
-                // CR->write_to_coin_file(coins_file_name);
-                // all_stock->write_to_stock_file(stock_file_name);
+                CR->write_to_coin_file(coins_file_name);
+                all_stock->write_to_stock_file(stock_file_name);
                 valid_input = false;
             }
             //Admin options

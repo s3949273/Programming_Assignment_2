@@ -1,0 +1,60 @@
+Main menu:
+   1. Display Items
+   2. Purchase Items
+   3. Save and Exit
+Administrator-Only Menu
+   4. Add Item
+   5. Remove Item
+   6. Display Coins
+   7. Reset Stock
+   8. Reset Coins
+   9. Abort program
+Select your option (1-9): 
+The id of the new stock will be: I0006
+
+Enter item name: 
+
+Maximum length reached for product name
+
+The id of the new stock will be: I0006
+
+Enter item name: 
+Enter item description: 
+
+Maximum length reached for product description
+
+The id of the new stock will be: I0006
+
+Enter item name: 
+Enter item description: 
+Enter the price for the item: 
+
+Price was not correctly formatted
+
+The id of the new stock will be: I0006
+
+Enter item name: 
+Enter item description: 
+Enter the price for the item: 
+
+Price was not correctly formatted
+
+The id of the new stock will be: I0006
+
+Enter item name: 
+Enter item description: 
+Enter the price for the item: 
+
+Price was not correctly formatted
+
+The id of the new stock will be: I0006
+
+Enter item name: 
+Enter item description: 
+Enter the price for the item: 
+
+Price was not correctly formatted
+
+The id of the new stock will be: I0006
+
+Enter item name: 

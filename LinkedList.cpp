@@ -91,9 +91,9 @@ void LinkedList::open_stock_file(string filepath){
             }
             vector<string> given_price;
             Helper::splitString(output_stock[3],given_price, ".");
-            if (given_price.size() != 2){
+            if (given_price.size() != 2 || given_price.at(1).empty() || given_price.at(1).size() >2){
                 throw std::invalid_argument(
-                    "Price had too many values when split"
+                    "Price had invalid values when making the price object"
                 );
             }
             try{
@@ -153,12 +153,14 @@ void LinkedList::add_item(){
     bool loop = true;
     while (loop) {
         try{
+            if (cin.eof()){loop=false;throw std::runtime_error("");}
             string id = this->get_lowest_ID(); 
             cout<<"The id of the new stock will be: "<<id<<"\n"<<endl;
             //Name input
             cout<<"Enter item name: ";
             string name_input = Helper::readInput();
             //Check length of name
+            if (cin.eof()){throw std::runtime_error("");loop=false;}
             if (name_input.size() > NAMELEN) {
                 throw std::invalid_argument(
                     "Maximum length reached "
@@ -171,6 +173,7 @@ void LinkedList::add_item(){
             string desc_input = Helper::readInput();
             
             //Check length of description
+            if (cin.eof()){loop=false;throw std::runtime_error("");}
             if (desc_input.size() > DESCLEN) {
                 throw std::invalid_argument(
                     "Maximum length reached "
@@ -181,9 +184,9 @@ void LinkedList::add_item(){
             //Item price input
             cout<<"Enter the price for the item: ";
             string price_input = Helper::readInput();
+            if (cin.eof()){loop=false;throw std::runtime_error("");}
             vector<string> price_split;
             Helper::splitString(price_input, price_split, ".");
-        
             if (stoi(price_input) < 0 || price_split.size() != 2 || price_split.at(1).size() != 2){
                 throw std::invalid_argument(
                     "Price was not correctly formatted"
@@ -202,6 +205,7 @@ void LinkedList::add_item(){
             cout<<"\""<<name_input<<", "<<desc_input<<".\" has now been added to the menu.\n"<<endl;
             loop = false;
         }
+        catch(std::runtime_error& e){}
         catch(std::exception& e){
             cout << e.what() << "\n" << endl;
         }
@@ -217,8 +221,8 @@ bool LinkedList::purchaseItem(CashRegister* cr){
         if(cin.eof()){throw std::runtime_error("");}
         Node* item_to_purchase = this->searchID(input);
         while (item_to_purchase==nullptr){
-            if(!input.empty()){
-                cout<<"Invalid input\n"<<endl;
+            if(cin.eof()){
+                throw std::runtime_error("");
             }
             cout<<"Please enter the id of the item you wish to purchase: ";
             input = Helper::readInput();
@@ -250,7 +254,6 @@ bool LinkedList::purchaseItem(CashRegister* cr){
                 throw std::invalid_argument("");
             }
             if(input.empty()){
-                    cout<<"You pressed enter"<<endl;
                     valid_input = false;
             }
             if(valid_input){
@@ -345,7 +348,7 @@ bool LinkedList::purchaseItem(CashRegister* cr){
         }
     }
     catch(std::exception& e){
-        cout<<e.what()<<endl;
+        // cout<<e.what()<<endl;
         // ret = this->purchaseItem(cr);
     }
     return ret;
@@ -382,7 +385,11 @@ void LinkedList::append(Node* currentNode){
 void LinkedList::remove_item(){
     cout<<"Please enter the ID of the item you'd like to remove: ";
     string id = Helper::readInput();
-    if (id.find("I") != string::npos && id.size() == 5){
+    while (id.empty()){
+        cout<<"Please enter the ID of the item you'd like to remove: ";
+        id = Helper::readInput();
+    }
+    if (id.find("I") != string::npos && id.size() == 5 && !cin.eof()){
         Node* curnode = this->head;
         Node* prevnode = nullptr;
         size_t i = 0;
@@ -406,7 +413,7 @@ void LinkedList::remove_item(){
         }
         
     }else{
-        cout<<"you tried to remove with an invalid id"<<endl;
+        if(!cin.eof()){cout<<"you tried to remove with an invalid id"<<endl;}
     }
 }
 
@@ -470,7 +477,7 @@ void LinkedList::write_to_stock_file(string stockfile){
     string s = "";
     while(curNode != nullptr){
         s += curNode->data->id + "|"+curNode->data->name + "|" + curNode->data->description + "|"+
-        std::to_string(curNode->data->price.dollars) + "." + std::to_string(curNode->data->price.cents)
+        std::to_string(curNode->data->price.dollars) + "." + std::string(2 - std::to_string(curNode->data->price.cents).length(),'0') + std::to_string(curNode->data->price.cents)
         + "|" + std::to_string(curNode->data->on_hand) + "\n";
         curNode = curNode->next;
     }
