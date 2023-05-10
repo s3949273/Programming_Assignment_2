@@ -119,23 +119,32 @@ bool CashRegister::do_change(int cents){
     if(cents <= this->max_coin_value){
         //there are enough coins in the register to be able to accomodate the change
         size_t counter = 7;
-        cout<<"Here is your change:";
+        double to_print_change = 0.0;
+        string change_string = "";
+        // cout<<"Here is your change:";
         while(change > 0 && counter >= 0){
             while((double(change)/this->coins.at(counter)->denom) >= 1 && this->coins.at(counter)->count> 0){
                 change -= this->coins.at(counter)->denom;
-                // cout<<"denom is: "<<this->coins.at(counter)->denom<<endl;
+
                 if((this->coins.at(counter)->denom)/100.0 >=1){
-                    cout<<" $"<<(this->coins.at(counter)->denom)/100.0<<" ";
+                    // cout<<" $"<<(this->coins.at(counter)->denom)/100.0<<" ";
+                    to_print_change += (this->coins.at(counter)->denom)/100.0;
+                    change_string += "$"+std::to_string((this->coins.at(counter)->denom)/100)+" ";
                 }else{
-                    cout<<this->coins.at(counter)->denom<<"c ";
+                    // cout<<this->coins.at(counter)->denom<<"c ";
+                    to_print_change += (this->coins.at(counter)->denom)/100.0;
+                    change_string += std::to_string(this->coins.at(counter)->denom)+"c ";
                 }
                 
                 this->coins.at(counter)->count --;
             }
             counter--;
         }
-        cout<<endl;
+        // cout<<endl;
         if(change ==0){
+            
+            printf("Here is your change: $%.2f, ", to_print_change);
+            cout<<change_string<<endl;
             ret = true;
         }
     }
