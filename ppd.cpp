@@ -38,74 +38,82 @@ void print_main_menu();
 int main(int argc, char **argv)
 {
     //Input and output files
-    FILE * stdin;
-    FILE * stdout;
+    // FILE * stdin;
+    // FILE * stdout;
     //Validating command line arguments
     if (argc != 3){
         throw std::invalid_argument("Invalid number of arguments");
     }
     //Get stock file name
-    string stock_file_name = string(argv[1]); 
+    string const stock_file_name = string(argv[1]); 
     //Get coins file name
-    string coins_file_name = string(argv[2]); 
+    string const coins_file_name = string(argv[2]); 
 
     //Create new linked list for stock
-    LinkedList* all_stock = new LinkedList();
+    
     //Read stock file
-    all_stock->open_stock_file(stock_file_name);
-    //Create Cash Register object
-    CashRegister* CR = new CashRegister(coins_file_name);
-    bool valid_input = true;
-    while (valid_input){
-        try{
-            if (!cin.eof()){print_main_menu();}
-            string input = Helper::readInput();
-            //User options
-            if (input == OPTION_1){
-                all_stock->display_stock();
+    try{
+        LinkedList* all_stock = new LinkedList();
+        all_stock->open_stock_file(stock_file_name);
+        //Create Cash Register object
+        CashRegister* CR = new CashRegister(coins_file_name);
+        // CR->parse_coin_file(coins_file_name);
+        bool valid_input = true;
+
+        while (valid_input){
+            try{
+                if (!cin.eof()){print_main_menu();}
+                string input = Helper::readInput();
+                //User options
+                if (input == OPTION_1){
+                    all_stock->display_stock();
+                }
+                else if (input == OPTION_2){
+                    all_stock->purchaseItem(CR);
+                }
+                //Checks if user has exited the program or user pressed ctrl+d
+                else if (input == OPTION_3 || cin.eof()){
+                    //Update files and save data before clearing memory
+                    
+                    CR->write_to_coin_file(coins_file_name);
+                    all_stock->write_to_stock_file(stock_file_name);
+                    valid_input = false;
+                }
+                //Admin options
+                else if (input == OPTION_4){
+                    all_stock->add_item();
+                }
+                else if (input == OPTION_5){
+                    all_stock->remove_item();
+                }
+                else if (input == OPTION_6){
+                    CR->display_coins();
+                }
+                else if (input == OPTION_7){
+                    all_stock->reset_stock_count();
+                }
+                else if (input == OPTION_8){
+                    CR->reset_coin_count();
+                }
+                else if (input == OPTION_9){
+                    valid_input = false;
+                }
+                //Checks if user pressed ENTER. If not true, throw an exception.
+                else if (!input.empty()) {
+                    throw std::runtime_error("invalid input");
+                }
             }
-            else if (input == OPTION_2){
-                all_stock->purchaseItem(CR);
-            }
-            //Checks if user has exited the program or user pressed ctrl+d
-            else if (input == OPTION_3 || cin.eof()){
-                //Update files and save data before clearing memory
-                
-                CR->write_to_coin_file(coins_file_name);
-                all_stock->write_to_stock_file(stock_file_name);
-                valid_input = false;
-            }
-            //Admin options
-            else if (input == OPTION_4){
-                all_stock->add_item();
-            }
-            else if (input == OPTION_5){
-                all_stock->remove_item();
-            }
-            else if (input == OPTION_6){
-                CR->display_coins();
-            }
-            else if (input == OPTION_7){
-                all_stock->reset_stock_count();
-            }
-            else if (input == OPTION_8){
-                CR->reset_coin_count();
-            }
-            else if (input == OPTION_9){
-                valid_input = false;
-            }
-            //Checks if user pressed ENTER. If not true, throw an exception.
-            else if (!input.empty()) {
-                throw std::runtime_error("invalid input");
+            catch(std::exception& e){
+                cout << e.what() << "\n" << endl;
             }
         }
-        catch(std::exception& e){
-            cout << e.what() << "\n" << endl;
-        }
+        delete all_stock;
+        delete CR;
+        //Clear memory here
+    }catch(std::exception& e){
+        cout<<"something went wrong when opening the stock file or the coin file"<<endl;
     }
-    //Clear memory here
-    delete all_stock;
-    delete CR;
+    
     
     return EXIT_SUCCESS;
 }
