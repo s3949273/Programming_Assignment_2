@@ -7,6 +7,10 @@ TC06 - check invalid inputs for OPTION_4 and OPTION_5 | Add Item / Remove Item
 TC07 - check OPTION_6 | Display Coins 
 TC08 - check OPTION_7 and OPTION_8 | Reset Stock / Reset Coin
 TC09 - check OPTION_9 | Abort Program
+TC10 - check output when there is no coins left
 
-A test is run using the following command. 
+A test is run using the following commands.
+cp test_case/default_test_case/TC.coins test_case/TC01.coins && cp test_case/default_test_case/TC.stock test_case/TC01.stock
 ./ppd test_case/TC01.stock test_case/TC01.coins < test_case/TC01.input > test_case/TC01.actual_ppd_out
+diff -w test_case/TC01.output test_case/TC01.actual_ppd_out
+diff -w -y test_case/TC01.coins test_case/TC01.expcoins
