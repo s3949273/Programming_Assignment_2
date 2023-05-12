@@ -18,7 +18,6 @@ CashRegister::CashRegister(string filepath){
     this->parse_coin_file(filepath);
     this->max_coin_value = this->get_max_coin_value();
 }
-
 CashRegister::~CashRegister(){
     size_t counter = 0;
     while(counter <=7){
@@ -46,6 +45,7 @@ int CashRegister::get_index_for_denom(unsigned x){
     }  
     return ret;
 };
+
 void CashRegister::parse_coin_file(std::string filepath){
     ifstream coins(filepath);
     std::string line_coins;
@@ -89,7 +89,7 @@ void CashRegister::parse_coin_file(std::string filepath){
 
 void CashRegister::write_to_coin_file(std::string coinsfile){
     std::string s = "";
-    for (size_t x = 0; x<this->coins.size(); x++){
+    for (size_t x = this->coins.size()-1; x>0; x--){
         s += std::to_string(this->coins.at(x)->denom) + "," + std::to_string(this->coins.at(x)->count) + "\n";
     }
     ofstream MyFile(coinsfile);
@@ -166,4 +166,5 @@ void CashRegister::display_coins(){
         }
         cout<<string(11 - std::to_string(this->coins.at(x)->count).length(),' ')<<this->coins.at(x)->count<<endl;
     }
+    cout<<endl;
 }
