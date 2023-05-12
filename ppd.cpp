@@ -38,8 +38,8 @@ void print_main_menu();
 int main(int argc, char **argv)
 {
     //Input and output files
-    // FILE * stdin;
-    // FILE * stdout;
+    FILE * stdin;
+    FILE * stdout;
     //Validating command line arguments
     if (argc != 3){
         throw std::invalid_argument("Invalid number of arguments");
@@ -49,17 +49,14 @@ int main(int argc, char **argv)
     //Get coins file name
     string const coins_file_name = string(argv[2]); 
 
-    //Create new linked list for stock
-    
-    //Read stock file
     try{
+        //Create new linked list for stock
         LinkedList* all_stock = new LinkedList();
+        //Read stock file
         all_stock->open_stock_file(stock_file_name);
         //Create Cash Register object
         CashRegister* CR = new CashRegister(coins_file_name);
-        // CR->parse_coin_file(coins_file_name);
         bool valid_input = true;
-
         while (valid_input){
             try{
                 if (!cin.eof()){print_main_menu();}
@@ -110,8 +107,10 @@ int main(int argc, char **argv)
         delete all_stock;
         delete CR;
         //Clear memory here
-    }catch(std::exception& e){
+    }catch(std::out_of_range& e){
         cout<<"something went wrong when opening the stock file or the coin file"<<endl;
+    }catch(std::exception& e){
+        cout<<e.what()<<endl;
     }
     
     
