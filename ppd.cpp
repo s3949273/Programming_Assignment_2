@@ -72,7 +72,6 @@ int main(int argc, char **argv)
                 //Update files and save data before clearing memory
                 
                 CR->write_to_coin_file(coins_file_name);
-                cout<<"here"<<endl;
                 all_stock->write_to_stock_file(stock_file_name);
                 valid_input = false;
             }
